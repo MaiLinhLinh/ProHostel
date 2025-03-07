@@ -9,4 +9,8 @@ module org.example.prohostel {
 
     opens org.example.prohostel to javafx.fxml;
     exports org.example.prohostel;
+
+
+    exports org.example.prohostel.Model;
+    opens org.example.prohostel.Model to javafx.fxml;
 }
