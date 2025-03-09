@@ -106,7 +106,7 @@ public class BookingRoom {
 
         LocalDateTime checkoutDateTime = LocalDateTime.of(cdate, ctime);
 
-        guestManager.addGuest("an", "01", "02", "01", "vn", "na", room01, checkinDateTime, checkoutDateTime);
+        guestManager.addGuest("an", "01", "nu","02", "01", "vn", "na", room01, checkinDateTime, checkoutDateTime);
 
         // Dinh dang ngay
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -198,7 +198,7 @@ public class BookingRoom {
             break;
         }
         //System.out.println(selectedRoom.isBooking(checkinDateTime, checkoutDateTime));
-        guestManager.addGuest(name, dateOfBirth, phone, card, Address, national, selectedRoom, checkinDateTime, checkoutDateTime);
+        guestManager.addGuest(name, dateOfBirth, sexx,phone, card, Address, national, selectedRoom, checkinDateTime, checkoutDateTime);
 
         System.out.println("----- Sau khi đặt phòng -----");
         for (Room room : rooms) {

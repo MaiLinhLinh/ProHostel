@@ -15,8 +15,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.example.prohostel.Model.User;
-import org.example.prohostel.Model.UserManager;
+import org.example.prohostel.Model.GuestManager;
+import org.example.prohostel.Model.UserAccount;
+import org.example.prohostel.Model.UserAccountManager;
 public class Login {
 
     @FXML
@@ -57,16 +58,31 @@ public class Login {
         role.setItems(FXCollections.observableArrayList("Admin", "Guest"));
         noti.setVisible(false);
         noti.setTextFill(Color.RED);
-        login.setOnAction(e -> loginAction());
+        login.setOnAction(e -> loginAction(e));
         signup.setOnMouseClicked(e -> setSignup(e));
     }
-    public void loginAction(){
+    public void loginAction(ActionEvent actionEvent){
         String userName = username.getText();
         String pass = password.getText();
         String userRole = role.getValue();
-        User user = UserManager.loginCheck(userName, pass, userRole);
+        UserAccount user = UserAccountManager.loginCheck(userName, pass, userRole);
         if(user != null){
-            System.out.println(userRole);
+            if(user.getRole() == "Guest"){
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GuestHome.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                GuestHome guestHome =fxmlLoader.getController();
+                guestHome.setUserName(userName);
+                guestHome.setRole(userRole);
+                stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
             return;
         }
         noti.setVisible(true);

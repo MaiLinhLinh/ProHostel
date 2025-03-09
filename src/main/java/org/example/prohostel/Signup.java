@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import org.example.prohostel.Model.UserManager;
+import org.example.prohostel.Model.UserAccountManager;
 
 public class Signup {
 
@@ -48,7 +48,7 @@ public class Signup {
         else if(role == null)
             role = "USER";
 
-        if(UserManager.register(userName, pass,role)){
+        if(UserAccountManager.register(userName, pass,role)){
             System.out.println("Dang ki thanh cong");
             return;
         }

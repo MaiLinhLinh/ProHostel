@@ -1,40 +1,81 @@
 package org.example.prohostel.Model;
 
+import java.util.ArrayList;
+
 public class User {
+    private String name;
+    private String numberPhone;
+    private String birthday;
+    private String IDCard;
+    private String address;
+    private String national;
+    private String sex;
+    private ArrayList<Booking> guestBookings;// danh sach dat phong cua khach
 
-    private String userName;
-    private String password;
-    private String role;
-
-    public User( String userName, String password, String role){
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
+    public User(String name, String birthday, String sex, String numberPhone, String IDCard, String address, String national){
+        this.name = name;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.numberPhone = numberPhone;
+        this.IDCard = IDCard;
+        this.address = address;
+        this.national = national;
+        this.guestBookings = new ArrayList<Booking>();
     }
 
-    public String getUserName() {
-        return userName;
+    public void addGuestBooking(Booking booking){
+        guestBookings.add(booking);
     }
 
-    public String getPassword() {
-        return password;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getName() {
+        return name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getAddress() {
+        return address;
     }
 
-    public String getRole() {
-        return role;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public String getBirthday() {
+        return birthday;
     }
 
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
+    public String getIDCard() {
+        return IDCard;
+    }
+
+    public void setIDCard(String IDCard) {
+        this.IDCard = IDCard;
+    }
+
+    public String getNational() {
+        return national;
+    }
+
+    public void setNational(String national) {
+        this.national = national;
+    }
+
+    public String getNumberPhone() {
+        return numberPhone;
+    }
+
+    public void setNumberPhone(String numberPhone) {
+        this.numberPhone = numberPhone;
+    }
+
+    public ArrayList<Booking> getGuestBooking() {
+        return guestBookings;
+    }
 }

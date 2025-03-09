@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 // luu thong tin 1 lan dat phong
 // moi lan dat co thong tin khach hang, phong, thoi gian dat
 public class Booking {
-    private Guest guest;
+    private User guest;
     private Room room;
     private LocalDateTime checkin;
     private LocalDateTime checkout;
 
-    public Booking(Guest guest, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime){
+    public Booking(User guest, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime){
         this.guest = guest;
         this.room = room;
         this.checkin = checkinTime;
@@ -20,7 +20,7 @@ public class Booking {
         return room;
     }
 
-    public Guest getGuest() {
+    public User getGuest() {
         return guest;
     }
 
