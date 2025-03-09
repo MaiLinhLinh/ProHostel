@@ -1,16 +1,16 @@
 package org.example.prohostel.Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class RoomManager {
     private ArrayList<Room> rooms;
-    private static ArrayList<Booking> bookings;// danh sach dat phong
 
     public RoomManager(ArrayList<Room> rooms){
         this.rooms = rooms;
-        this.bookings = new ArrayList<Booking>();
     }
 
     // lay danh sach phong con trong trong khoang thoi gian
@@ -23,14 +23,14 @@ public class RoomManager {
        return availableRooms;
     }
 
-    public void addBooking(Booking booking){
-        bookings.add(booking);
-    }
+
     public ArrayList<Room> getRooms() {
         return rooms;
     }
 
-    public static ArrayList<Booking> getBookings() {
-        return bookings;
+    public void addRooms(Room room) {
+        rooms.add(room);
     }
+
+
 }

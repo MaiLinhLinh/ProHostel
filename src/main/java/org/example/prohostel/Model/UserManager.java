@@ -6,8 +6,8 @@ public class UserManager {
     private static final ArrayList<User> users = new ArrayList<User>();
     // Them tai khoan mac dinh
     static {
-        users.add(new User("user", "user", "USER"));
-        users.add(new User("admin", "admin", "ADMIN"));
+        users.add(new User("guest", "guest", "Guest"));
+        users.add(new User("admin", "admin", "Admin"));
     }
     // tim tai khoan trong danh sach de dang ki
     private static User getUser(String userName, String password, String role){
@@ -37,10 +37,10 @@ public class UserManager {
         return null;
     }
     // kiem tra dang nhap
-    public static User loginCheck(String userName, String password){
+    public static User loginCheck(String userName, String password, String role){
         if(getUser(userName) != null){
             User user = getUser(userName);
-            if(user.getPassword().equals(password))
+            if(user.getPassword().equals(password) && user.getRole().equals(role))
                     return user;
         }
         return null;

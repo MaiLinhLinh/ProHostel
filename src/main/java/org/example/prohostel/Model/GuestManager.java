@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class GuestManager {
     private static final ArrayList<Guest> guests = new ArrayList<Guest>();
-    private RoomManager roomManager;
+
 
     // tim khach hang theo CCCD
-    private Guest getGuest(String IDcard){
+    public Guest getGuest(String IDcard){
         for(Guest guest: guests){
             if(guest.getIDCard().equals(IDcard))
                 return guest;
@@ -25,12 +25,13 @@ public class GuestManager {
                 Booking newBooking = new Booking(newGuest, room, checkinTime, checkoutTime);
                 newGuest.addGuestBooking(newBooking);
                 room.setTimeBookings(newBooking);
-                roomManager.addBooking(newBooking);
+
+               // roomManager.addBooking(newBooking);
             } else {
                 Booking newBooking = new Booking(guest, room, checkinTime, checkoutTime);
                 guest.addGuestBooking(newBooking);
                 room.setTimeBookings(newBooking);
-                roomManager.addBooking(newBooking);
+                //roomManager.addBooking(newBooking);
             }
             System.out.println("Dat phong thanh cong");
         }
@@ -38,6 +39,5 @@ public class GuestManager {
             System.out.println("Phong da bi dat trong khoang thoi gian nay");
         }
     }
-
 
 }

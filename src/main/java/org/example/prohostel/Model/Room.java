@@ -18,6 +18,8 @@ public class Room {
             LocalDateTime existCheckin = timeBooking.getCheckin();
             LocalDateTime existCheckout = timeBooking.getCheckout();
             if(checkinTime.isBefore(existCheckout) && checkoutTime.isAfter(existCheckin)){
+                System.out.println("🚨 Phòng đã bị đặt bởi " + timeBooking.getGuest().getName() +
+                    " từ " + existCheckin + " đến " + existCheckout);
                 return true; // phong da bi dat trong thoi gian nay
             }
         }
@@ -39,5 +41,6 @@ public class Room {
     public void setRoomID(String roomID) {
         this.roomID = roomID;
     }
+
 
 }

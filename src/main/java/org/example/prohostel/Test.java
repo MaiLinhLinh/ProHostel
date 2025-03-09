@@ -5,14 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Test extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 550, 350);
+        FXMLLoader fxmlLoader = new FXMLLoader(BookingRoom.class.getResource("BookingRoom.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1300, 650);
         stage.setScene(scene);
         stage.show();
     }
