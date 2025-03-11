@@ -1,4 +1,4 @@
 package org.example.prohostel;
 
-public class Dashboard {
+public class CheckoutPayment {
 }

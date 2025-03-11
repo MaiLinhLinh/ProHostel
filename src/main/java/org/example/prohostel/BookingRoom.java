@@ -34,8 +34,6 @@ public class BookingRoom {
     private Button cancel;
 
     @FXML
-    private Button exit;
-    @FXML
     private DatePicker checkinDate;
 
     @FXML
@@ -84,29 +82,13 @@ public class BookingRoom {
     private TableColumn<Room, String> selectedRoomType;
     private GuestManager guestManager;
     private RoomManager roomManager;
-    private ArrayList<Room> rooms = new ArrayList<Room>();
+    private ArrayList<Booking> bookings = new ArrayList<>();
 
     @FXML
     void initialize() {
-        Room room01 = new Room("101", "Phong don");
-        Room room03 = new Room("102", "Phong doi");
-        rooms.add(room01);
-        rooms.add(room03);
-        roomManager = new RoomManager(rooms);
+        this.roomManager = new RoomManager();
         this.guestManager = new GuestManager();
 
-
-        LocalDate date = LocalDate.of(2025, 3, 9); // Ngày cụ thể
-        LocalTime time = LocalTime.of(00, 00); // 14:30 (2:30 PM)
-
-        LocalDateTime checkinDateTime = LocalDateTime.of(date, time);
-
-        LocalDate cdate = LocalDate.of(2025, 3, 9); // Ngày cụ thể
-        LocalTime ctime = LocalTime.of(16, 00); // 14:30 (2:30 PM)
-
-        LocalDateTime checkoutDateTime = LocalDateTime.of(cdate, ctime);
-
-        guestManager.addGuest("an", "01", "nu","02", "01", "vn", "na", room01, checkinDateTime, checkoutDateTime);
 
         // Dinh dang ngay
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -143,7 +125,7 @@ public class BookingRoom {
 
 
 
-        exit.setOnAction(e -> exitAction());
+
         save.setOnAction(e -> saveAction());
 
     }
@@ -182,8 +164,13 @@ public class BookingRoom {
         } else {
             System.out.println("Vui lòng chọn đầy đủ ngày và giờ!");
         }
-
-        System.out.println("----- Trước khi đặt phòng -----");
+        ArrayList<Room> rooms = roomManager.getRoomAvailable(checkinDateTime, checkoutDateTime);
+        Room selectedRoom = null;
+        for(Room room: rooms){
+            selectedRoom = room;
+            break;
+        }
+        System.out.println("----- Truoc khi đặt phòng -----");
         for (Room room : rooms) {
             System.out.println("Phòng: " + room.getRoomID());
             for (Booking booking : room.getBookings()) {
@@ -192,11 +179,9 @@ public class BookingRoom {
                         " | Check-out: " + booking.getCheckout());
             }
         }
-        Room selectedRoom = null;
-        for(Room room: rooms){
-            selectedRoom = room;
-            break;
-        }
+
+
+
         //System.out.println(selectedRoom.isBooking(checkinDateTime, checkoutDateTime));
         guestManager.addGuest(name, dateOfBirth, sexx,phone, card, Address, national, selectedRoom, checkinDateTime, checkoutDateTime);
 

@@ -5,17 +5,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.Signup">
    <children>
       <Label layoutX="179.0" layoutY="56.0" text="Đăng kí" />
       <Label layoutX="22.0" layoutY="132.0" text="Tên đăng nhập" />
       <Label layoutX="23.0" layoutY="173.0" text="Mật khẩu" />
-      <Button fx:id="signup" layoutX="162.0" layoutY="338.0" mnemonicParsing="false" text="Đăng kí " />
-      <Label fx:id="noti" layoutX="147.0" layoutY="292.0" text="Tài khoản đã tồn tại" />
-      <TextField fx:id="username" layoutX="117.0" layoutY="128.0" />
-      <TextField fx:id="password" layoutX="117.0" layoutY="169.0" />
-      <Label layoutX="22.0" layoutY="225.0" text="Nhập mã nếu đăng kí tài khoản admin" />
-      <TextField fx:id="admin" layoutX="236.0" layoutY="221.0" />
+      <Button fx:id="signup" layoutX="170.0" layoutY="312.0" mnemonicParsing="false" text="Đăng kí " />
+      <Label fx:id="noti" layoutX="139.0" layoutY="278.0" text="Tài khoản đã tồn tại" />
+      <TextField fx:id="username" layoutX="134.0" layoutY="128.0" />
+      <TextField fx:id="password" layoutX="134.0" layoutY="169.0" />
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="&lt;&lt;" />
+      <Label layoutX="17.0" layoutY="221.0" text="Xác nhận mật khẩu:  " />
+      <TextField fx:id="confirm" layoutX="134.0" layoutY="217.0" />
+      <Label fx:id="noticonfirm" layoutX="118.0" layoutY="260.0" text="Mật khẩu xác nhận chưa chính xác" />
    </children>
 </AnchorPane>

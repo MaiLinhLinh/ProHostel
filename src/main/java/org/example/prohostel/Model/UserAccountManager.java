@@ -10,9 +10,9 @@ public class UserAccountManager {
         users.add(new UserAccount("admin", "admin", "Admin"));
     }
     // tim tai khoan trong danh sach de dang ki
-    private static UserAccount getUser(String userName, String password, String role){
+    private static UserAccount getUser(String userName, String password){
         for(UserAccount user: users){
-            if(user.getUserName().equals(userName) && user.getPassword().equals(password) && user.getRole().equals(role))
+            if(user.getUserName().equals(userName) && user.getPassword().equals(password))
                 return user;
         }
         return null;
@@ -20,9 +20,9 @@ public class UserAccountManager {
 
 
     // dang ki tai khoan moi
-    public static boolean register(String userName, String password, String role){
-        if(getUser(userName, password, role) == null) {
-            users.add(new UserAccount(userName, password, role));
+    public static boolean register(String userName, String password){
+        if(getUser(userName, password) == null) {
+            users.add(new UserAccount(userName, password, "Guest"));
             return true;
         }
         return false;
@@ -37,10 +37,10 @@ public class UserAccountManager {
         return null;
     }
     // kiem tra dang nhap
-    public static UserAccount loginCheck(String userName, String password, String role){
+    public static UserAccount loginCheck(String userName, String password){
         if(getUser(userName) != null){
             UserAccount user = getUser(userName);
-            if(user.getPassword().equals(password) && user.getRole().equals(role))
+            if(user.getPassword().equals(password))
                     return user;
         }
         return null;

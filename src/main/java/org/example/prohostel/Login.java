@@ -44,9 +44,6 @@ public class Login {
     @FXML
     private TextField username;
 
-    @FXML
-    private ComboBox<String> role;
-
 
     Scene scene;
     Stage stage;
@@ -55,19 +52,19 @@ public class Login {
 
     @FXML
     void initialize() {
-        role.setItems(FXCollections.observableArrayList("Admin", "Guest"));
         noti.setVisible(false);
         noti.setTextFill(Color.RED);
         login.setOnAction(e -> loginAction(e));
         signup.setOnMouseClicked(e -> setSignup(e));
+
     }
     public void loginAction(ActionEvent actionEvent){
         String userName = username.getText();
         String pass = password.getText();
-        String userRole = role.getValue();
-        UserAccount user = UserAccountManager.loginCheck(userName, pass, userRole);
+        UserAccount user = UserAccountManager.loginCheck(userName, pass);
         if(user != null){
-            if(user.getRole() == "Guest"){
+            String userRole = user.getRole();
+            if(userRole.equals("Guest")){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GuestHome.fxml"));
                 try {
                     root = fxmlLoader.load();
@@ -79,9 +76,31 @@ public class Login {
                 guestHome.setUserName(userName);
                 guestHome.setRole(userRole);
                 stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+                scene = new Scene(root,1300, 650);
+                //stage.setScene(scene);
+//                stage.setResizable(false);
+//                stage.setWidth(1300);
+//                stage.setHeight(650);
+
+                stage.setScene(scene);
+                stage.sizeToScene();
+                stage.show();
+            }
+            else{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminHome.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                AdminHome adminHome =fxmlLoader.getController();
+                adminHome.setUserName(userName);
+                adminHome.setRole(userRole);
+                stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+
             }
             return;
         }
@@ -91,15 +110,15 @@ public class Login {
     public void setSignup(MouseEvent event) {
         try {
             root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
-            System.out.println("Lỗi khi tải Signup.fxml: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
+
 
 }
 

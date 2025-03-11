@@ -1,5 +1,7 @@
 package org.example.prohostel.Model;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class User {
@@ -10,6 +12,7 @@ public class User {
     private String address;
     private String national;
     private String sex;
+
     private ArrayList<Booking> guestBookings;// danh sach dat phong cua khach
 
     public User(String name, String birthday, String sex, String numberPhone, String IDCard, String address, String national){
@@ -20,8 +23,10 @@ public class User {
         this.IDCard = IDCard;
         this.address = address;
         this.national = national;
+
         this.guestBookings = new ArrayList<Booking>();
     }
+
 
     public void addGuestBooking(Booking booking){
         guestBookings.add(booking);
@@ -78,4 +83,14 @@ public class User {
     public ArrayList<Booking> getGuestBooking() {
         return guestBookings;
     }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+
 }

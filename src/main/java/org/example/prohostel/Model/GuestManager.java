@@ -1,10 +1,31 @@
 package org.example.prohostel.Model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class GuestManager {
     private static final ArrayList<User> guests = new ArrayList<User>();
+
+    static{
+        LocalDateTime checkin1 = LocalDateTime.of(2025, 3, 15, 14, 0);
+        LocalDateTime checkout1 = LocalDateTime.of(2025, 3, 15, 12, 0);
+        User guest = new User("an", "12", "nu", "123", "122", "na", "vn");
+        guests.add(guest);
+        RoomManager roomManager = new RoomManager();
+        ArrayList<Room> rooms = roomManager.getRooms();
+        Room selectedRoom = null;
+        for(Room room: rooms){
+            selectedRoom = room;
+            break;
+        }
+        Booking booking = new Booking(guest, selectedRoom, checkin1, checkout1);
+        guest.addGuestBooking(booking);
+        for(Booking book: guest.getGuestBooking()){
+            System.out.println(book.getRoom().getRoomID());
+        }
+        System.out.println("Da co 1 khach dat phong");
+    }
 
 
     // tim khach hang theo CCCD
@@ -23,15 +44,13 @@ public class GuestManager {
                 User newGuest = new User(name, birthday, sex, numberPhone, IDCard, address, national);
                 guests.add(newGuest);
                 Booking newBooking = new Booking(newGuest, room, checkinTime, checkoutTime);
-                newGuest.addGuestBooking(newBooking);
                 room.setTimeBookings(newBooking);
+                newGuest.addGuestBooking(newBooking);
 
-               // roomManager.addBooking(newBooking);
             } else {
                 Booking newBooking = new Booking(guest, room, checkinTime, checkoutTime);
-                guest.addGuestBooking(newBooking);
                 room.setTimeBookings(newBooking);
-                //roomManager.addBooking(newBooking);
+                guest.addGuestBooking(newBooking);
             }
             System.out.println("Dat phong thanh cong");
         }
@@ -40,4 +59,7 @@ public class GuestManager {
         }
     }
 
+    public ArrayList<User> getListGuests() {
+        return guests;
+    }
 }

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.prohostel.Model.UserAccount;
 
@@ -30,7 +31,7 @@ public class GuestHome {
     private Button bookingRoomHistory;
 
     @FXML
-    private Button exit;
+    private AnchorPane contentPane;
 
     @FXML
     private Label role;
@@ -59,10 +60,9 @@ public class GuestHome {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(root);
+
     }
 
     public void setUserName(String userName){
