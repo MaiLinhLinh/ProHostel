@@ -19,11 +19,10 @@ public class RoomManager {
         Room room01 = new Room("101", "Phong don", 1000);
         Room room03 = new Room("102", "Phong doi", 2000);
         rooms.add(room01);
-        saveRoomsToFile();
         System.out.println("Da luu 1 phong");
         rooms.add(room03);
-        saveRoomsToFile();
         System.out.println("Da luu 1 phong");
+        saveRoomsToFile();
     }
 
     // lay danh sach phong con trong trong khoang thoi gian
@@ -41,20 +40,15 @@ public class RoomManager {
         return rooms;
     }
 
-    public void addRooms(Room room) {
+
+
+    public static void addRooms(Room room) {
         rooms.add(room);
         saveRoomsToFile();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Thêm phòng thành công");
-        alert.setHeaderText(null);
-        alert.setContentText("Thêm phòng thành công");
-        alert.showAndWait();
+
     }
 
-    private static void saveRoomsToFile() {
-//        for(Room room: rooms){
-//            System.out.println("so phong "+ room.getRoomID()+ "loai phong " + room.getRoomType() + "gia tien " + room.getPrice());
-//        }
+    public static void saveRoomsToFile() {
         try {
             FileOutputStream fileRoom = new FileOutputStream("Rooms.dat");
             ObjectOutputStream oos = new ObjectOutputStream(fileRoom);
@@ -68,7 +62,8 @@ public class RoomManager {
         }
     }
 
-    private void loadRoomsFromFile(){
+
+    public void loadRoomsFromFile(){
         File file = new File("Rooms.dat");
         if (!file.exists() || file.length() == 0) {
             return;
@@ -77,6 +72,10 @@ public class RoomManager {
             FileInputStream fileRoom = new FileInputStream("Rooms.dat");
             ObjectInputStream ois = new ObjectInputStream(fileRoom);
             rooms = (ArrayList<Room>) ois.readObject();
+            System.out.println("check load file");
+            for (Room room : rooms) {
+                System.out.println("Phòng " + room.getRoomID() + " có " + room.getBookings().size() + " lượt đặt phòng.");
+            }
             ois.close();
             fileRoom.close();
         }catch(FileNotFoundException e){
@@ -86,6 +85,11 @@ public class RoomManager {
         } catch(ClassNotFoundException e){
             e.printStackTrace();
         }
+
     }
+
+
+
+
 
 }

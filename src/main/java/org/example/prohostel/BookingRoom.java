@@ -8,8 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import org.example.prohostel.Model.*;
 
@@ -67,22 +72,30 @@ public class BookingRoom {
     private TableColumn<Room, String> availableRoomType;
 
     @FXML
-    private TableView<Room> availableRooms;
+    private TableView<Room> availableRoomTable;
 
     @FXML
     private TableColumn<Room, Boolean> pick;
 
     @FXML
-    private TableView<Room> selectedRoom;
+    private TableView<Room> selectedRoomTable;
 
     @FXML
     private TableColumn<Room, String> selectedRoomID;
 
     @FXML
+    private Button ok;
+
+    @FXML
     private TableColumn<Room, String> selectedRoomType;
+
     private GuestManager guestManager;
     private RoomManager roomManager;
     private ArrayList<Booking> bookings = new ArrayList<>();
+    private ObservableList<Room> availabelRoom = FXCollections.observableArrayList();
+    private ObservableList<Room> selectdRoom = FXCollections.observableArrayList();
+    private LocalDateTime checkinDateTime;
+    private LocalDateTime checkoutDateTime;
 
     @FXML
     void initialize() {
@@ -123,9 +136,15 @@ public class BookingRoom {
         checkinTime.setValue("12:00 AM");
         checkoutTime.setValue("04:00 PM");
 
+        checkinDate.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
+        checkoutDate.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
+
+        checkinTime.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
+        checkoutTime.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
 
 
 
+        ok.setOnAction(e -> okAction());
         save.setOnAction(e -> saveAction());
 
     }
@@ -133,7 +152,7 @@ public class BookingRoom {
         System.out.println("Quay ve trang chu");
     }
 
-    public void saveAction(){
+    public void saveAction() {
         String name = fullName.getText();
         String phone = phoneNumber.getText();
         String dateOfBirth = birthday.getText();
@@ -141,59 +160,65 @@ public class BookingRoom {
         String card = IDCard.getText();
         String national = nation.getText();
         String Address = address.getText();
+        for (Room room : availabelRoom) {
+            if (room.isSelected()) {
+                guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
+                System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
+            }
+        }
+
+    }
+    public void updateAvailableRooms(){
+        availabelRoom.clear();
+        availableRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        availableRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+
         String getCheckinTime = checkinTime.getValue();
         String getCheckoutTime = checkoutTime.getValue();
         LocalDate getCheckinDate = checkinDate.getValue();
         LocalDate getCheckoutDate = checkoutDate.getValue();
 
-        LocalDateTime checkinDateTime = null;
-        LocalDateTime checkoutDateTime = null;
+        pick.setCellValueFactory(cellData -> cellData.getValue().isSelectedProperty());
+        pick.setCellFactory(CheckBoxTableCell.forTableColumn(pick));
 
-        // chuyen ve dinh dang DateTime de so sanh
-        if (getCheckinDate != null && getCheckinTime != null) {
-            LocalTime parsedTime = LocalTime.parse(getCheckinTime, DateTimeFormatter.ofPattern("hh:mm a"));
-            checkinDateTime = LocalDateTime.of(getCheckinDate, parsedTime);
+        // cho phep chinh sua checkbox
+        availableRoomTable.setEditable(true);
+        pick.setEditable(true);
+
+        // chuyen dinh dang
+        if(getCheckinDate == null || getCheckoutDate == null ||getCheckinTime == null || getCheckoutTime == null || (getCheckinDate.isAfter(getCheckoutDate))){
+            availableRoomTable.getItems().clear();
+        }
+        else {
+            LocalTime parsedCheckinTime = LocalTime.parse(getCheckinTime, DateTimeFormatter.ofPattern("hh:mm a"));
+            checkinDateTime = LocalDateTime.of(getCheckinDate, parsedCheckinTime);
             System.out.println("Check-in DateTime: " + checkinDateTime);
-        } else {
-            System.out.println("Vui lòng chọn đầy đủ ngày và giờ!");
-        }
-        if (getCheckoutDate != null && getCheckoutTime != null) {
-            LocalTime parsedTime = LocalTime.parse(getCheckoutTime, DateTimeFormatter.ofPattern("hh:mm a"));
-            checkoutDateTime = LocalDateTime.of(getCheckoutDate, parsedTime);
+            LocalTime parsedCheckoutTime = LocalTime.parse(getCheckoutTime, DateTimeFormatter.ofPattern("hh:mm a"));
+            checkoutDateTime = LocalDateTime.of(getCheckoutDate, parsedCheckoutTime);
             System.out.println("Check-out DateTime: " + checkoutDateTime);
-        } else {
-            System.out.println("Vui lòng chọn đầy đủ ngày và giờ!");
-        }
-        ArrayList<Room> rooms = roomManager.getRoomAvailable(checkinDateTime, checkoutDateTime);
-        Room selectedRoom = null;
-        for(Room room: rooms){
-            selectedRoom = room;
-            break;
-        }
-        System.out.println("----- Truoc khi đặt phòng -----");
-        for (Room room : rooms) {
-            System.out.println("Phòng: " + room.getRoomID());
-            for (Booking booking : room.getBookings()) {
-                System.out.println("   Đã đặt bởi: " + booking.getGuest().getName() +
-                        " | Check-in: " + booking.getCheckin() +
-                        " | Check-out: " + booking.getCheckout());
+            ArrayList<Room> rooms = roomManager.getRoomAvailable(checkinDateTime, checkoutDateTime);
+            for(Room room : rooms){
+//                Room newroom = new Room(room.getRoomID(), room.getRoomType(), room.getPrice());
+                availabelRoom.add(room);
             }
         }
+        availableRoomTable.setItems(availabelRoom);
 
-
-
-        //System.out.println(selectedRoom.isBooking(checkinDateTime, checkoutDateTime));
-        guestManager.addGuest(name, dateOfBirth, sexx,phone, card, Address, national, selectedRoom, checkinDateTime, checkoutDateTime);
-
-        System.out.println("----- Sau khi đặt phòng -----");
-        for (Room room : rooms) {
-            System.out.println("Phòng: " + room.getRoomID());
-            for (Booking booking : room.getBookings()) {
-                System.out.println("   Đã đặt bởi: " + booking.getGuest().getName() +
-                        " | Check-in: " + booking.getCheckin() +
-                        " | Check-out: " + booking.getCheckout());
-            }
-        }
 
     }
+    public void okAction(){
+        selectdRoom.clear();
+
+        for(Room room: availabelRoom){
+            System.out.println("Phòng " + room.getRoomID() + " isSelected = " + room.isSelected());
+            if(room.isSelected()){
+                System.out.println("Phong " + room.getRoomID() + " da duoc chon");
+                selectdRoom.add(room);
+            }
+        }
+        selectedRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        selectedRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        selectedRoomTable.setItems(selectdRoom);
+    }
+
 }

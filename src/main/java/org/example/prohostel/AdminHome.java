@@ -100,6 +100,9 @@ public class AdminHome {
     @FXML
     private AnchorPane roomListPane;
 
+    @FXML
+    private Button pay;
+
     private RoomManager roomManager;
     private ObservableList<Room> listRoom = FXCollections.observableArrayList();
 
@@ -112,17 +115,54 @@ public class AdminHome {
     void initialize() {
         roomManager = new RoomManager();
 
+
         contentPane.setVisible(true);
         roomListPane.setVisible(false);
-
-        trangthai.setCellValueFactory(cellData -> {
-            Room room = cellData.getValue();
-            boolean isOccupied = room.isOccupied(room.getRoomID());
-            return new SimpleStringProperty(isOccupied ? "Đang cho thuê" : "Trống");
-        });
         roomType.getItems().addAll("Phòng đơn", "Phòng đôi");
 
+        addRoom.setOnAction(e -> addRoomAction());
+        roomList.setOnAction(e -> roomListAction());
+        guestList.setOnAction(e -> guestListAction());
+        pay.setOnAction(e -> payAction());
+
+        bookRoom.setOnAction(e -> bookRoomAction());
+
+
+    }
+    public void bookRoomAction(){
+        roomListPane.setVisible(false);
+        contentPane.setVisible(true);
+        try {
+            root = FXMLLoader.load(getClass().getResource("BookingRoom.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(root);
+    }
+    public void setUserName(String userName){
+        name.setText(userName);
+    }
+    public void setRole(String Role){
+        role.setText(Role);
+    }
+
+    public void roomListAction(){
+        contentPane.setVisible(false);
+        roomListPane.setVisible(true);
+        listRoom.clear();
+        System.out.println("check load file trong danh sach");
+        roomManager.loadRoomsFromFile();
+        trangthai.setCellValueFactory(cellData -> {
+            Room room = cellData.getValue();
+            boolean isOccupied = room.isOccupied();
+            System.out.println("trang thai " + room.isOccupied());
+            return new SimpleStringProperty(isOccupied ? "Đang cho thuê" : "Trống");
+        });
+
+
         for(Room room: roomManager.getRooms()){
+            System.out.println("phong " + room.getRoomID() + "co " + room.getBookings().size() + " luot dat phong");
             listRoom.add(room);
         }
         roomTable.setStyle("-fx-alignment: CENTER;");
@@ -173,43 +213,7 @@ public class AdminHome {
         });
 
 
-
-
         roomTable.setItems(listRoom);
-        addRoom.setOnAction(e -> addRoomAction());
-        roomList.setOnAction(e -> roomListAction());
-        guestList.setOnAction(e -> guestListAction());
-
-
-
-
-
-
-        bookRoom.setOnAction(e -> bookRoomAction());
-
-
-    }
-    public void bookRoomAction(){
-        roomListPane.setVisible(false);
-        contentPane.setVisible(true);
-        try {
-            root = FXMLLoader.load(getClass().getResource("BookingRoom.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        contentPane.getChildren().clear();
-        contentPane.getChildren().add(root);
-    }
-    public void setUserName(String userName){
-        name.setText(userName);
-    }
-    public void setRole(String Role){
-        role.setText(Role);
-    }
-
-    public void roomListAction(){
-        contentPane.setVisible(false);
-        roomListPane.setVisible(true);
     }
 
     public void addRoomAction(){
@@ -237,6 +241,11 @@ public class AdminHome {
         Room room = new Room(ID, type, roomPrice);
         listRoom.add(room);
         roomManager.addRooms(room);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Thêm phòng thành công");
+        alert.setHeaderText(null);
+        alert.setContentText("Thêm phòng thành công");
+        alert.showAndWait();
 
     }
     public void guestListAction(){
@@ -245,6 +254,17 @@ public class AdminHome {
         contentPane.setVisible(true);
         try {
             root = FXMLLoader.load(getClass().getResource("ShowGuestList.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        contentPane.getChildren().add(root);
+    }
+    public void payAction(){
+        contentPane.getChildren().clear();
+        roomListPane.setVisible(false);
+        contentPane.setVisible(true);
+        try {
+            root = FXMLLoader.load(getClass().getResource("CheckoutPayment.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

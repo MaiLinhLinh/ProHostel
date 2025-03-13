@@ -27,11 +27,12 @@
       <Button fx:id="edit" layoutX="29.0" layoutY="278.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Thay đổi ảnh đại diện" />
       <AnchorPane layoutX="203.0" layoutY="9.0" prefHeight="94.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;">
          <children>
-            <Button fx:id="showInvoice" layoutX="224.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Xuất hoá đơn" />
-            <Button fx:id="bookRoom" layoutX="25.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Đặt phòng" />
-            <Button fx:id="setAdmin" layoutX="878.0" layoutY="32.0" mnemonicParsing="false" text="Cấp quyền admin" />
-            <Button fx:id="roomList" layoutX="477.0" layoutY="32.0" mnemonicParsing="false" text="DS phòng" />
-            <Button fx:id="guestList" layoutX="616.0" layoutY="33.0" mnemonicParsing="false" text="DS khách hàng" />
+            <Button fx:id="showInvoice" layoutX="222.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Quản Lí Hoá Đơn" />
+            <Button fx:id="bookRoom" layoutX="35.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Đặt phòng" />
+            <Button fx:id="setAdmin" layoutX="986.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Cấp quyền admin" />
+            <Button fx:id="roomList" layoutX="608.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS phòng" />
+            <Button fx:id="guestList" layoutX="796.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS khách hàng" />
+            <Button fx:id="pay" layoutX="411.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Thanh Toán" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="contentPane" layoutX="195.0" layoutY="120.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" />

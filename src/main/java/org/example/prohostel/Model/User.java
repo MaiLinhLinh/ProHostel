@@ -2,9 +2,10 @@ package org.example.prohostel.Model;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String numberPhone;
     private String birthday;
@@ -14,6 +15,7 @@ public class User {
     private String sex;
 
     private ArrayList<Booking> guestBookings;// danh sach dat phong cua khach
+    private ArrayList<Invoice> guestInvoices;
 
     public User(String name, String birthday, String sex, String numberPhone, String IDCard, String address, String national){
         this.name = name;
@@ -25,6 +27,7 @@ public class User {
         this.national = national;
 
         this.guestBookings = new ArrayList<Booking>();
+        this.guestInvoices = new ArrayList<Invoice>();
     }
 
 
@@ -93,4 +96,11 @@ public class User {
     }
 
 
+    public ArrayList<Invoice> getGuestInvoices() {
+        return guestInvoices;
+    }
+
+    public void setGuestInvoices(Invoice invoice) {
+        guestInvoices.add(invoice);
+    }
 }

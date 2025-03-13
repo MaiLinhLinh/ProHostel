@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.CheckoutPayment">
+   <children>
+      <TextField fx:id="IDcardSearch" layoutX="53.0" layoutY="30.0" prefHeight="26.0" prefWidth="212.0" promptText="Tìm kiếm khách hàng theo CCCD" />
+      <ScrollPane layoutX="53.0" layoutY="77.0" prefHeight="342.0" prefWidth="1068.0">
+         <content>
+            <TableView fx:id="listBooking" prefHeight="341.0" prefWidth="1068.0">
+              <columns>
+                <TableColumn fx:id="stt" prefWidth="50.40002137422562" text="STT" />
+                <TableColumn fx:id="guestName" prefWidth="166.40000534057617" text="Họ tên" />
+                  <TableColumn fx:id="guestIDCard" prefWidth="204.00001525878906" text="Số CCCD" />
+                  <TableColumn fx:id="roomID" prefWidth="88.00006103515625" text="Số phòng" />
+                  <TableColumn fx:id="roomType" prefWidth="100.0" text="Loại phòng" />
+                  <TableColumn fx:id="checkin" prefWidth="169.60003662109375" text="Checkin" />
+                  <TableColumn fx:id="checkout" prefWidth="192.800048828125" text="Checkout" />
+                  <TableColumn fx:id="payment" prefWidth="74.40008544921875" text="Chọn" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Button fx:id="invoice" layoutX="881.0" layoutY="444.0" mnemonicParsing="false" text="Hoá đơn" />
+      <Button fx:id="search" layoutX="277.0" layoutY="31.0" mnemonicParsing="false" text="Tìm kiếm" />
+      <Button fx:id="pay" layoutX="1032.0" layoutY="444.0" mnemonicParsing="false" text="Thanh toán" />
+      <AnchorPane fx:id="invoicePane" layoutX="398.0" layoutY="12.0" prefHeight="485.0" prefWidth="408.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 0;" visible="false">
+         <children>
+            <Label layoutX="192.0" layoutY="35.0" text="Hoá đơn" />
+            <Label layoutX="34.0" layoutY="87.0" text="Khách hàng: " />
+            <Label fx:id="name" layoutX="145.0" layoutY="87.0" text="name" />
+            <Label layoutX="18.0" layoutY="116.0" text="Ngày lập hoá đơn: " />
+            <Label fx:id="nowtime" layoutX="151.0" layoutY="116.0" text="datetime" />
+            <Line endX="100.0" layoutX="115.0" layoutY="149.0" startX="-100.0" />
+            <TableView fx:id="invoiceTable" layoutY="183.0" prefHeight="202.0" prefWidth="408.0">
+              <columns>
+                <TableColumn fx:id="sttinvoice" prefWidth="31.20001220703125" text="STT" />
+                <TableColumn fx:id="roomIDInvoice" prefWidth="64.0" text="Số phòng" />
+                  <TableColumn fx:id="roomTypeInvoice" prefWidth="70.39996337890625" text="Loại phòng" />
+                  <TableColumn fx:id="priceInvoice" prefWidth="80.79998779296875" text="Đơn giá (1h)" />
+                  <TableColumn fx:id="numberDay" prefWidth="87.20001220703125" text="Số giờ lưu trú" />
+                  <TableColumn fx:id="roomTotal" prefWidth="72.79998779296875" text="Thành tiền" />
+              </columns>
+            </TableView>
+            <Button fx:id="payInvoice" layoutX="316.0" layoutY="440.0" mnemonicParsing="false" text="Thanh toán" />
+            <Label layoutX="33.0" layoutY="444.0" text="Cảm ơn quý khách!" />
+            <Label layoutX="221.0" layoutY="400.0" text="Tổng tiền: " />
+            <Label fx:id="totalPrice" layoutX="316.0" layoutY="400.0" text="total" />
+            <Button fx:id="exitInvoice" layoutX="369.0" layoutY="9.0" mnemonicParsing="false" text="X" />
+            <Label fx:id="noti" layoutX="202.0" layoutY="62.0" text="noti" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

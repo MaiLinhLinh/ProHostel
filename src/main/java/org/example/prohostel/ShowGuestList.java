@@ -2,8 +2,11 @@ package org.example.prohostel;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -70,19 +73,26 @@ public class ShowGuestList {
     private Label hotenLabel;
 
     @FXML
-    private TableView<Room> phongthueTable;
+    private TableView<Booking> phongthueTable;
 
     @FXML
-    private TableColumn<Room, Double> price;
+    private TableColumn<Booking, Double> price;
 
     @FXML
-    private TableColumn<Room, String> roomID;
+    private TableColumn<Booking, String> roomID;
 
     @FXML
-    private TableColumn<Room, String> roomType;
+    private TableColumn<Booking, String> roomType;
 
     @FXML
-    private TableColumn<Room, Integer> sttchitiet;
+    private TableColumn<Booking, Integer> sttchitiet;
+
+    @FXML
+    private TableColumn<Booking, String> checkin;
+
+    @FXML
+    private TableColumn<Booking, String> checkout;
+
 
     @FXML
     private AnchorPane inforPane;
@@ -94,18 +104,20 @@ public class ShowGuestList {
     private Label totalNumber;
 
 
-
-
-
     private ObservableList<User> listGuest = FXCollections.observableArrayList();
-    private ObservableList<Room> listRoom = FXCollections.observableArrayList();
+    private ObservableList<Booking> listBooking = FXCollections.observableArrayList();
     private GuestManager guestManager;
 
     @FXML
     void initialize() {
 
         this.guestManager = new GuestManager();
+        System.out.println("check load file guest");
+        for(User guest: guestManager.getListGuests()){
+            System.out.println(guest.getName() + " da o trong danh sach file");
+        }
         inforPane.setVisible(false);
+
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>(){
             protected void updateItem(Integer item, boolean empty){
@@ -118,6 +130,7 @@ public class ShowGuestList {
                 }
             }
         });
+
         nameGuest.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameGuest.setStyle("-fx-alignment: CENTER;");
         nation.setCellValueFactory(new PropertyValueFactory<>("national"));
@@ -141,7 +154,7 @@ public class ShowGuestList {
             private final Button editButton = new Button();
             {
                 editButton.setText("Xem chi tiết");
-                editButton.setStyle("-fx-background-color: transparent;");// xoa nen button
+                //editButton.setStyle("-fx-background-color: transparent;");// xoa nen button
                 editButton.setOnAction(e ->{
                     int index = getIndex();
                     User guest = getTableView().getItems().get(index);
@@ -154,24 +167,19 @@ public class ShowGuestList {
                 setGraphic(empty? null: editButton);
             }
 
-
         });
-
-
-
-
 
         guestTable.setStyle("-fx-alignment: CENTER;");
         guestTable.setItems(listGuest);
 
 
-
-
-
     }
 
     public void initalizeRoomTable(User guest){
+
+        listBooking.clear();
         inforPane.setVisible(true);
+
         hotenLabel.setText(guest.getName());
         hotenLabel.setStyle("-fx-alignment: CENTER;");
         cccdLabel.setText(guest.getIDCard());
@@ -189,20 +197,24 @@ public class ShowGuestList {
                 }
             }
         });
-        roomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
+        checkin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckin().format(formatter)));
+        checkout.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckout().format(formatter)));
+        roomID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
         roomID.setStyle("-fx-alignment: CENTER;");
-        roomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
         roomType.setStyle("-fx-alignment: CENTER;");
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
         price.setStyle("-fx-alignment: CENTER;");
         LocalDateTime nowTime = LocalDateTime.now();
         for(Booking booking: guest.getGuestBooking()){
             if(booking.getCheckout().isAfter(nowTime)){
-                listRoom.add(booking.getRoom());
+                listBooking.add(booking);
             }
         }
         phongthueTable.setStyle("-fx-alignment: CENTER;");
-        phongthueTable.setItems(listRoom);
+        phongthueTable.setItems(listBooking);
         totalNumber.setText(String.valueOf(phongthueTable.getItems().size()));
         exitInfor.setOnAction(e -> {
             inforPane.setVisible(false);
