@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.prohostel.Model.GuestManager;
+import org.example.prohostel.Model.SessionManager;
 import org.example.prohostel.Model.UserAccount;
 import org.example.prohostel.Model.UserAccountManager;
 public class Login {
@@ -63,6 +64,7 @@ public class Login {
         String pass = password.getText();
         UserAccount user = UserAccountManager.loginCheck(userName, pass);
         if(user != null){
+            SessionManager.setCurrentAccount(user);
             String userRole = user.getRole();
             if(userRole.equals("Guest")){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GuestHome.fxml"));

@@ -109,6 +109,18 @@ public boolean isOccupied() {
         return isSelected;
     }
 
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.isSelected = new SimpleBooleanProperty(false); // Khởi tạo lại biến transient
+    } //day la cach khoi phuc transient tu dong
+
+
+//    public void restoreTransientFields() {
+//        if (this.isSelected == null) {
+//            this.isSelected = new SimpleBooleanProperty(false);
+//        }
+//    } // khoi phuc transient thu cong
+
 
 }
 

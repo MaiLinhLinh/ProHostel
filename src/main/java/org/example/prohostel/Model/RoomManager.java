@@ -72,10 +72,6 @@ public class RoomManager {
             FileInputStream fileRoom = new FileInputStream("Rooms.dat");
             ObjectInputStream ois = new ObjectInputStream(fileRoom);
             rooms = (ArrayList<Room>) ois.readObject();
-            System.out.println("check load file");
-            for (Room room : rooms) {
-                System.out.println("Phòng " + room.getRoomID() + " có " + room.getBookings().size() + " lượt đặt phòng.");
-            }
             ois.close();
             fileRoom.close();
         }catch(FileNotFoundException e){
@@ -87,6 +83,20 @@ public class RoomManager {
         }
 
     }
+//public void loadRoomsFromFile() { // day la cach load file lay transient thu cong
+//    File file = new File("rooms.dat");
+//    if (!file.exists()) return;
+//
+//    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+//        rooms = (ArrayList<Room>) ois.readObject();
+//        for (Room room : rooms) {
+//            room.restoreTransientFields(); // Khôi phục BooleanProperty
+//            System.out.println("Phòng " + room.getRoomID() + " có " + room.getBookings().size() + " lượt đặt phòng.");
+//        }
+//    } catch (IOException | ClassNotFoundException e) {
+//        e.printStackTrace();
+//    }
+//}
 
 
 

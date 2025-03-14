@@ -3,6 +3,8 @@ package org.example.prohostel.Model;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -72,6 +74,10 @@ public class Booking implements Serializable {
             checkout = timeNow;
         long hours = ChronoUnit.HOURS.between(checkin, checkout);
         return (int)hours;
+    }
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.isSelected = new SimpleBooleanProperty(false); // Khởi tạo lại biến transient
     }
 }
 

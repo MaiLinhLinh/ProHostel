@@ -124,6 +124,7 @@ public class AdminHome {
         roomList.setOnAction(e -> roomListAction());
         guestList.setOnAction(e -> guestListAction());
         pay.setOnAction(e -> payAction());
+        showInvoice.setOnAction(e-> showInvoiceAction());
 
         bookRoom.setOnAction(e -> bookRoomAction());
 
@@ -270,7 +271,17 @@ public class AdminHome {
         }
         contentPane.getChildren().add(root);
     }
-
+    public void showInvoiceAction(){
+        contentPane.getChildren().clear();
+        roomListPane.setVisible(false);
+        contentPane.setVisible(true);
+        try {
+            root = FXMLLoader.load(getClass().getResource("ShowInvoiceList.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        contentPane.getChildren().add(root);
+    }
 
 
 

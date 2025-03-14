@@ -10,20 +10,22 @@ public class Invoice implements Serializable {
     private ArrayList<Booking> payedBookings;
     private double totalPay;
     private boolean isPay;
+    private String account;
 
-    public Invoice(User guest, ArrayList<Booking> payedBookings, LocalDateTime paymentTime){
+    public Invoice(User guest, String account, ArrayList<Booking> payedBookings, LocalDateTime paymentTime){
         this.guest = guest;
+        this.account = account;
         this.payedBookings = payedBookings;
         this.paymentTime = paymentTime;
         totalPay = 0;
         isPay = false;
     }
     public double getTotalPay(){
-        double sum = 0;
+        totalPay = 0;
         for(Booking booking: payedBookings){
-            sum += booking.caculatePrice();
+            totalPay += booking.caculatePrice();
         }
-        return sum;
+        return totalPay;
     }
 
     public User getGuest() {
@@ -44,5 +46,9 @@ public class Invoice implements Serializable {
 
     public LocalDateTime getPaymentTime() {
         return paymentTime;
+    }
+
+    public String getAccount() {
+        return account;
     }
 }

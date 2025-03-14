@@ -179,7 +179,29 @@ public class BookingRoom {
         LocalDate getCheckoutDate = checkoutDate.getValue();
 
         pick.setCellValueFactory(cellData -> cellData.getValue().isSelectedProperty());
-        pick.setCellFactory(CheckBoxTableCell.forTableColumn(pick));
+        //pick.setCellFactory(CheckBoxTableCell.forTableColumn(pick));
+        pick.setCellFactory(col -> new TableCell<Room, Boolean>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                checkBox.setOnAction(event -> {
+                    Room room = getTableView().getItems().get(getIndex());
+                    room.setSelected(checkBox.isSelected());
+                });
+
+            }
+
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null) {
+                    setGraphic(null);
+                    return;
+                }
+                checkBox.setSelected(item);
+                setGraphic(checkBox);
+            }
+        });
 
         // cho phep chinh sua checkbox
         availableRoomTable.setEditable(true);

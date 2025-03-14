@@ -12,6 +12,7 @@ public class InvoiceManager {
 
     public void addInvoices(Invoice invoice){
         invoices.add(invoice);
+        System.out.println("Da them hoa don");
         saveInvoicesToFile();
     }
 
@@ -78,6 +79,10 @@ public class InvoiceManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void removeInvoice(Invoice invoice){
+        invoices.remove(invoice);
+        saveInvoicesToFile();
     }
 
 }
