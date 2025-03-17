@@ -3,6 +3,7 @@ package org.example.prohostel;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -113,11 +114,13 @@ public class CheckoutPayment {
     private boolean check = false;
 
 
+
     @FXML
     void initialize() {
 
         this.guestManager = new GuestManager();
         this.invoiceManager = new InvoiceManager();
+
 
         invoicePane.setVisible(false);
 
@@ -164,7 +167,7 @@ public class CheckoutPayment {
         for (User g : guestManager.getListGuests()) {
             if (g.getIDCard().equals(getID)) {
                 ok = 1;
-                LocalDateTime nowTime = LocalDateTime.now();
+                LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
                 for (Booking booking : g.getGuestBooking()) {
                     if (booking.getCheckout().isAfter(nowTime)) {
                         guest = booking.getGuest();
@@ -235,7 +238,11 @@ public class CheckoutPayment {
                 newInvoice.setPay(true);
                 check = true;
                 for (Booking booking : payedBookings) {
+                    //booking.caculatePrice();
+                    System.out.println("checkout: " + booking.getCheckout());
                     booking.setPay(true);
+                    User guest = booking.getGuest();
+                    guestManager.delateGuest(guest);
                 }
                 invoiceManager.addInvoices(newInvoice);
                 System.out.println("da luu 1 hoa don");

@@ -192,6 +192,7 @@ public class ShowInvoiceList {
 
     }
     public void detailInvoice(Invoice invoice){
+        payedBookings.clear();
         invoiceDetailPane.setVisible(true);
         nameGuest.setText(invoice.getGuest().getName());
         adminAccount.setText(invoice.getAccount());

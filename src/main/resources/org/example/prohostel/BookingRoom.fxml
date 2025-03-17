@@ -98,12 +98,7 @@
             <Button fx:id="ok" layoutX="708.0" layoutY="339.0" mnemonicParsing="false" text="OK" />
          </children>
       </AnchorPane>
-      <Button fx:id="save" layoutX="911.0" layoutY="456.0" mnemonicParsing="false" text="Lưu">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button fx:id="cancel" layoutX="1012.0" layoutY="456.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="Huỷ">
+      <Button fx:id="save" layoutX="1014.0" layoutY="448.0" mnemonicParsing="false" text="Lưu">
          <font>
             <Font size="18.0" />
          </font>

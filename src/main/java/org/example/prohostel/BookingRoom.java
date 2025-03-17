@@ -160,12 +160,33 @@ public class BookingRoom {
         String card = IDCard.getText();
         String national = nation.getText();
         String Address = address.getText();
-        for (Room room : availabelRoom) {
-            if (room.isSelected()) {
-                guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
-                System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Thông báo");
+        alert.setHeaderText(null);
+        alert.setContentText("Bạn có chắc chắn muốn đặt phòng đã chọn ?");
+        alert.showAndWait().ifPresent(response -> {
+            if(response == ButtonType.OK){
+                for (Room room : availabelRoom) {
+                    if (room.isSelected()) {
+                        guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
+                        System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
+                    }
+                }
+
+                Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
+                succesAlert.setTitle("Thông báo");
+                succesAlert.setHeaderText(null);
+                succesAlert.setContentText("Đăng kí phòng thành công!");
+                succesAlert.showAndWait();
             }
-        }
+        });
+
+//        for (Room room : availabelRoom) {
+//            if (room.isSelected()) {
+//                guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
+//                System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
+//            }
+//        }
 
     }
     public void updateAvailableRooms(){
@@ -220,7 +241,6 @@ public class BookingRoom {
             System.out.println("Check-out DateTime: " + checkoutDateTime);
             ArrayList<Room> rooms = roomManager.getRoomAvailable(checkinDateTime, checkoutDateTime);
             for(Room room : rooms){
-//                Room newroom = new Room(room.getRoomID(), room.getRoomType(), room.getPrice());
                 availabelRoom.add(room);
             }
         }
@@ -230,7 +250,6 @@ public class BookingRoom {
     }
     public void okAction(){
         selectdRoom.clear();
-
         for(Room room: availabelRoom){
             System.out.println("Phòng " + room.getRoomID() + " isSelected = " + room.isSelected());
             if(room.isSelected()){
@@ -240,6 +259,14 @@ public class BookingRoom {
         }
         selectedRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
         selectedRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        if(selectdRoom.size() == 0){
+            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+            errorAlert.setTitle("Thông báo");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Vui lòng chọn ít nhất một phòng!");
+            errorAlert.showAndWait();
+            return;
+        }
         selectedRoomTable.setItems(selectdRoom);
     }
 

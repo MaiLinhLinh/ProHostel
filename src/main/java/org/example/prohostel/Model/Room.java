@@ -77,7 +77,7 @@ public class Room implements Serializable{
 //        return false;
 //    }
 public boolean isOccupied() {
-    LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);;
+    LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     System.out.println("🔍 Kiểm tra trạng thái phòng " + roomID + " tại " + timeNow);
 
     for (Booking booking : timeBookings) {
@@ -120,6 +120,12 @@ public boolean isOccupied() {
 //            this.isSelected = new SimpleBooleanProperty(false);
 //        }
 //    } // khoi phuc transient thu cong
+
+    public void delateBooking(Booking booking){
+        timeBookings.remove(booking);
+        System.out.println("Da xoa 1 booking khoi danh sach");
+        RoomManager.saveRoomsToFile();
+    }
 
 
 }

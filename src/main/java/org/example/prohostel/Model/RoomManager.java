@@ -36,7 +36,7 @@ public class RoomManager {
     }
 
 
-    public ArrayList<Room> getRooms() {
+    public static ArrayList<Room> getRooms() {
         return rooms;
     }
 
@@ -63,7 +63,7 @@ public class RoomManager {
     }
 
 
-    public void loadRoomsFromFile(){
+    public static void loadRoomsFromFile(){
         File file = new File("Rooms.dat");
         if (!file.exists() || file.length() == 0) {
             return;

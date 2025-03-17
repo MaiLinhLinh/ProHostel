@@ -1,5 +1,8 @@
 package org.example.prohostel;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -59,6 +64,7 @@ public class Login {
         signup.setOnMouseClicked(e -> setSignup(e));
 
     }
+
     public void loginAction(ActionEvent actionEvent){
         String userName = username.getText();
         String pass = password.getText();
@@ -120,6 +126,28 @@ public class Login {
             stage.setScene(scene);
             stage.show();
     }
+
+//    public void loadAvatar(String username, ImageView imageView) {
+//        String avatarPath = getAvatarPath(username);
+//        imageView.setImage(new Image(new File(avatarPath).toURI().toString())); // Hiển thị ảnh
+//    }
+//    private String getAvatarPath(String username) {
+//        File file = new File("avatar_sources.txt");
+//        if (!file.exists()) return "/Image/img_2.png"; // Nếu file chưa có, dùng ảnh mặc định
+//
+//        try (BufferedReader reader = new BufferedReader(new FileReader("avatar_sources.txt"))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] parts = line.split("=", 2);
+//                if (parts.length == 2 && parts[0].equals(username)) {
+//                    return parts[1]; // Trả về đường dẫn ảnh của username
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return "/Image/img_2.png" ; // Nếu không tìm thấy username, dùng ảnh mặc định
+//    }
 
 
 }

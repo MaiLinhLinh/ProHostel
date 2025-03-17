@@ -14,8 +14,8 @@ public class GuestManager {
     }
 
     static {
-        LocalDateTime checkin1 = LocalDateTime.of(2025, 3, 11, 14, 0);
-        LocalDateTime checkout1 = LocalDateTime.of(2025, 3, 15, 12, 0);
+        LocalDateTime checkin1 = LocalDateTime.of(2025, 3, 16, 14, 0);
+        LocalDateTime checkout1 = LocalDateTime.of(2025, 3, 18, 12, 0);
         User guest = new User("an", "12", "nu", "123", "122", "na", "vn");
         guests.add(guest);
         ArrayList<Room> rooms = roomManager.getRooms();
@@ -124,5 +124,10 @@ public class GuestManager {
             e.printStackTrace();
         }
 
+    }
+
+    public void delateGuest(User guest){
+        guests.remove(guest);
+        saveGuestsToFile();
     }
 }

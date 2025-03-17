@@ -17,7 +17,8 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="searchInvoice" layoutX="57.0" layoutY="78.0" prefHeight="26.0" prefWidth="179.0" promptText="Tra cứu hoá đơn theo ngày" />
+      <TextField fx:id="searchInvoice" layoutX="57.0" layoutY="78.0" prefHeight="26.0" prefWidth="238.0" promptText="Tra cứu hoá đơn theo tài khoản tạo đơn" />
+      <Button fx:id="searchInvoiceButton" layoutX="316.0" layoutY="78.0" mnemonicParsing="false" text="Tìm kiếm" />
       <ScrollPane layoutX="52.0" layoutY="139.0" prefHeight="316.0" prefWidth="1034.0">
          <content>
             <TableView fx:id="invoiceTable" prefHeight="314.0" prefWidth="1034.0">
@@ -32,7 +33,7 @@
             </TableView>
          </content>
       </ScrollPane>
-      <AnchorPane fx:id="invoiceDetailPane" layoutX="272.0" layoutY="25.0" prefHeight="470.0" prefWidth="469.0" style="-fx-background-color: #FFFFFF;" visible="false">
+      <AnchorPane fx:id="invoiceDetailPane" layoutX="295.0" layoutY="21.0" prefHeight="470.0" prefWidth="469.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <Label layoutX="225.0" layoutY="14.0" text="Hoá đơn" />
             <Label layoutX="45.0" layoutY="77.0" text="Tên khách hàng: " />
@@ -59,6 +60,5 @@
             <Button fx:id="exitDetail" layoutX="432.0" layoutY="10.0" mnemonicParsing="false" text="X" />
          </children>
       </AnchorPane>
-      <Button fx:id="searchInvoiceButton" layoutX="261.0" layoutY="79.0" mnemonicParsing="false" text="Tìm kiếm" />
    </children>
 </AnchorPane>
