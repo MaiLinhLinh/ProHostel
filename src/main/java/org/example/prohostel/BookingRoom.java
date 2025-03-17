@@ -33,10 +33,8 @@ public class BookingRoom {
     private TextField address;
 
     @FXML
-    private TextField birthday;
+    private DatePicker birthday;
 
-    @FXML
-    private Button cancel;
 
     @FXML
     private DatePicker checkinDate;
@@ -155,11 +153,21 @@ public class BookingRoom {
     public void saveAction() {
         String name = fullName.getText();
         String phone = phoneNumber.getText();
-        String dateOfBirth = birthday.getText();
+        LocalDate date = birthday.getValue();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateOfBirth = date.format(formatter);
         String sexx = sex.getText();
         String card = IDCard.getText();
         String national = nation.getText();
         String Address = address.getText();
+        if(name == "" || phone == "" || date == null || sexx == "" || card == "" || national == "" || Address == ""){
+            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+            errorAlert.setTitle("Thông báo");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Vui lòng điền đầy đủ thông tin cá nhân!");
+            errorAlert.showAndWait();
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);

@@ -49,6 +49,7 @@ public class Login {
 
     @FXML
     private TextField username;
+    private UserAccountManager userAccountManager;
 
 
     Scene scene;
@@ -58,6 +59,7 @@ public class Login {
 
     @FXML
     void initialize() {
+        this.userAccountManager = new UserAccountManager();
         noti.setVisible(false);
         noti.setTextFill(Color.RED);
         login.setOnAction(e -> loginAction(e));

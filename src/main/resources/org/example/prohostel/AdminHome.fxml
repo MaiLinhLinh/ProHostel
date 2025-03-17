@@ -27,16 +27,16 @@
       <Button fx:id="edit" layoutX="17.0" layoutY="279.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Thay đổi ảnh đại diện" />
       <AnchorPane layoutX="203.0" layoutY="9.0" prefHeight="94.0" prefWidth="1154.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;">
          <children>
-            <Button fx:id="showInvoice" layoutX="222.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Quản Lí Hoá Đơn" />
-            <Button fx:id="bookRoom" layoutX="35.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Đặt phòng" />
-            <Button fx:id="setAdmin" layoutX="986.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Cấp quyền admin" />
-            <Button fx:id="roomList" layoutX="608.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS phòng" />
-            <Button fx:id="guestList" layoutX="796.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS khách hàng" />
-            <Button fx:id="pay" layoutX="411.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Thanh Toán" />
+            <Button fx:id="showInvoice" layoutX="207.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Quản Lí Hoá Đơn" />
+            <Button fx:id="bookRoom" layoutX="21.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Đặt phòng" />
+            <Button fx:id="setAdmin" layoutX="975.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Chỉnh sửa quyền admin" />
+            <Button fx:id="roomList" layoutX="591.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS phòng" />
+            <Button fx:id="guestList" layoutX="782.0" layoutY="6.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="DS khách hàng" />
+            <Button fx:id="pay" layoutX="392.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Thanh Toán" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="contentPane" layoutX="195.0" layoutY="120.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" visible="false" />
-      <AnchorPane fx:id="roomListPane" layoutX="195.0" layoutY="120.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" visible="false">
+      <AnchorPane fx:id="contentPane" layoutX="195.0" layoutY="120.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" />
+      <AnchorPane fx:id="roomListPane" layoutX="195.0" layoutY="120.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;">
          <children>
             <ScrollPane layoutX="20.0" layoutY="56.0" prefHeight="439.0" prefWidth="614.0">
                <content>
@@ -96,11 +96,12 @@
             </Label>
             <Label layoutX="31.0" layoutY="85.0" text="Tên đăng nhập" />
             <Label layoutX="31.0" layoutY="116.0" text="Mật khẩu" />
-            <Button fx:id="accept" layoutX="91.0" layoutY="190.0" mnemonicParsing="false" text="Cấp quyền Admin" />
+            <Button fx:id="accept" layoutX="15.0" layoutY="191.0" mnemonicParsing="false" text="Cấp quyền Admin" />
             <TextField fx:id="userAccount" layoutX="134.0" layoutY="81.0" promptText="username" />
             <TextField fx:id="passwordAccount" layoutX="134.0" layoutY="112.0" promptText="password" />
             <Label fx:id="noti" layoutX="91.0" layoutY="154.0" text="Tài khoản không tồn tại" />
             <Button fx:id="exitacceptPane" layoutX="272.0" layoutY="14.0" mnemonicParsing="false" text="X" />
+            <Button fx:id="removeAdmin" layoutX="178.0" layoutY="191.0" mnemonicParsing="false" text="Huỷ quyền Admin" />
          </children>
       </AnchorPane>
       <Button fx:id="signout" layoutX="35.0" layoutY="338.0" mnemonicParsing="false" text="Đăng xuất" />

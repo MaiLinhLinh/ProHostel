@@ -133,6 +133,9 @@ public class AdminHome {
     @FXML
     private ImageView imageView;
 
+    @FXML
+    private Button removeAdmin;
+
 
 
     private RoomManager roomManager;
@@ -336,6 +339,7 @@ public class AdminHome {
         acceptAdminPane.setVisible(true);
         noti.setVisible(false);
         accept.setOnAction(e -> acceptAdminAction());
+        removeAdmin.setOnAction(e -> removeAdminAction());
         exitacceptPane.setOnAction(e -> {
             acceptAdminPane.setVisible(false);
         });
@@ -344,6 +348,14 @@ public class AdminHome {
         String name = userAccount.getText();
         String pass = passwordAccount.getText();
         UserAccount user = UserAccountManager.loginCheck(name, pass);
+        if(user.getRole().equals("Admin")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Thông báo");
+            alert.setHeaderText(null);
+            alert.setContentText("Tài khoản này hiện đang là Admin!");
+            alert.showAndWait();
+            return;
+        }
         if(user != null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
@@ -352,6 +364,13 @@ public class AdminHome {
             alert.showAndWait().ifPresent(response -> {
                 if(response == ButtonType.OK){
                     user.setRole("Admin");
+                    for(int i = 0; i < UserAccountManager.getAccounts().size(); i++){
+                        UserAccount account = UserAccountManager.getAccounts().get(i);
+                        if(user.getUserName().equals(account.getUserName()) && user.getPassword().equals(account.getPassword())){
+                            UserAccountManager.getAccounts().set(i, user);
+                        }
+                    }
+                    UserAccountManager.saveAccountsToFile();
                     Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
                     succesAlert.setTitle("Thông báo");
                     succesAlert.setHeaderText(null);
@@ -363,6 +382,46 @@ public class AdminHome {
             noti.setVisible(true);
             noti.setTextFill(Color.RED);
         }
+    }
+    public void removeAdminAction(){
+        String name = userAccount.getText();
+        String pass = passwordAccount.getText();
+        UserAccount user = UserAccountManager.loginCheck(name, pass);
+        if(user.getRole().equals("Guest")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Thông báo");
+            alert.setHeaderText(null);
+            alert.setContentText("Tài khoản này hiện không phải là Admin!");
+            alert.showAndWait();
+            return;
+        }
+        if(user != null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Thông báo");
+            alert.setHeaderText(null);
+            alert.setContentText("Bạn chắc chắn muốn xoá quyền Admin của tài khoản này?");
+            alert.showAndWait().ifPresent(response -> {
+                if(response == ButtonType.OK){
+                    user.setRole("Guest");
+                    for(int i = 0; i < UserAccountManager.getAccounts().size(); i++){
+                        UserAccount account = UserAccountManager.getAccounts().get(i);
+                        if(user.getUserName().equals(account.getUserName()) && user.getPassword().equals(account.getPassword())){
+                            UserAccountManager.getAccounts().set(i, user);
+                        }
+                    }
+                    UserAccountManager.saveAccountsToFile();
+                    Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
+                    succesAlert.setTitle("Thông báo");
+                    succesAlert.setHeaderText(null);
+                    succesAlert.setContentText("Đã xoá vai trò Admin thành công!");
+                    succesAlert.showAndWait();
+                }
+            });
+        }else{
+            noti.setVisible(true);
+            noti.setTextFill(Color.RED);
+        }
+
     }
     public void signoutAction(ActionEvent event){
         try {

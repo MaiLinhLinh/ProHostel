@@ -45,7 +45,6 @@
                </font>
             </Label>
             <TextField fx:id="nation" layoutX="152.0" layoutY="339.0" />
-            <TextField fx:id="birthday" layoutX="152.0" layoutY="196.0" />
             <Label layoutX="19.0" layoutY="196.0" text="Ngày Sinh">
                <font>
                   <Font size="16.0" />
@@ -96,6 +95,7 @@
               </columns>
             </TableView>
             <Button fx:id="ok" layoutX="708.0" layoutY="339.0" mnemonicParsing="false" text="OK" />
+            <DatePicker fx:id="birthday" layoutX="147.0" layoutY="196.0" />
          </children>
       </AnchorPane>
       <Button fx:id="save" layoutX="1014.0" layoutY="448.0" mnemonicParsing="false" text="Lưu">

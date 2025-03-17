@@ -1,6 +1,8 @@
 package org.example.prohostel.Model;
 
-public class UserAccount {
+import java.io.Serializable;
+
+public class UserAccount implements Serializable {
 
     private String userName;
     private String password;
