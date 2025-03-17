@@ -190,6 +190,7 @@ public class BookingRoom {
 
     }
     public void updateAvailableRooms(){
+        RoomManager.loadRoomsFromFile();
         availabelRoom.clear();
         availableRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
         availableRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));

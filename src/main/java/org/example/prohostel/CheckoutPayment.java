@@ -238,7 +238,27 @@ public class CheckoutPayment {
                 newInvoice.setPay(true);
                 check = true;
                 for (Booking booking : payedBookings) {
-                    //booking.caculatePrice();
+
+                    // Cập nhật booking trong danh sách của RoomManager
+                    for (Room r : RoomManager.getRooms()) {
+                        // Tìm room có cùng ID với booking hiện tại
+                        if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
+                            // Duyệt qua danh sách bookings của room đó
+                            for (int i = 0; i < r.getBookings().size(); i++) {
+                                Booking b = r.getBookings().get(i);
+                                // Giả sử checkin là duy nhất cho mỗi booking,
+                                // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
+                                if(b.getCheckin().equals(booking.getCheckin())) {
+                                    r.getBookings().set(i, booking);
+                                    System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    RoomManager.saveRoomsToFile();
+                    GuestManager.saveGuestsToFile();
                     System.out.println("checkout: " + booking.getCheckout());
                     booking.setPay(true);
                     User guest = booking.getGuest();

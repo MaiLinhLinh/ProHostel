@@ -27,6 +27,7 @@ public class RoomManager {
 
     // lay danh sach phong con trong trong khoang thoi gian
     public ArrayList<Room> getRoomAvailable(LocalDateTime checkinTime, LocalDateTime checkoutTime){
+        loadRoomsFromFile();
         ArrayList<Room> availableRooms = new ArrayList<Room>();
        for(Room room: rooms){
            if(room.isBooking(checkinTime, checkoutTime) == false)

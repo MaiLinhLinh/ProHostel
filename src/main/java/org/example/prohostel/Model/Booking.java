@@ -57,27 +57,39 @@ public class Booking implements Serializable {
     public double caculatePrice(){
         LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         if(timeNow.isBefore(checkout)) {
-            RoomManager.loadRoomsFromFile();
-//            ArrayList<Room> rooms = RoomManager.getRooms();
-//            for(Room r: rooms){
-//                if(r.getRoomID().equals(room.getRoomID())){
-//                    r.setTimeBookings();
-//                }
-//            }
             System.out.println("Da thay doi thoi gian checkout");
             checkout = timeNow;
             System.out.println("checkout: " + checkout);
 
-            RoomManager.saveRoomsToFile();
-            GuestManager.saveGuestsToFile();
-            //RoomManager.loadRoomsFromFile();
-            System.out.println("check danh sach sau khi doi checkout");
-            for (Room room : RoomManager.getRooms()) {
-                for (Booking booking : room.getBookings()) {
-                    System.out.println("Phòng: " + room.getRoomID() +
-                            ", Checkout mới: " + booking.getCheckout());
-                }
-            }
+//            // Cập nhật booking trong danh sách của RoomManager
+//            for (Room r : RoomManager.getRooms()) {
+//                // Tìm room có cùng ID với booking hiện tại
+//                if (r.getRoomID().equals(room.getRoomID())) {
+//                    // Duyệt qua danh sách bookings của room đó
+//                    for (int i = 0; i < r.getBookings().size(); i++) {
+//                        Booking b = r.getBookings().get(i);
+//                        // Giả sử checkin là duy nhất cho mỗi booking,
+//                        // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
+//                        if(b.getCheckin().equals(this.getCheckin())) {
+//                            r.getBookings().set(i, this);
+//                            System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
+//                            break;
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
+
+//            RoomManager.saveRoomsToFile();
+//            GuestManager.saveGuestsToFile();
+//            RoomManager.loadRoomsFromFile();
+//            System.out.println("check danh sach sau khi doi checkout");
+//            for (Room room : RoomManager.getRooms()) {
+//                for (Booking booking : room.getBookings()) {
+//                    System.out.println("Phòng: " + room.getRoomID() +
+//                            ", Checkout mới: " + booking.getCheckout());
+//                }
+//            }
         }
         long hours = ChronoUnit.HOURS.between(checkin, checkout);
         return hours * room.getPrice();
