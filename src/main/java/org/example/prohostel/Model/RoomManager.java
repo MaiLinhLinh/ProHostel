@@ -44,9 +44,22 @@ public class RoomManager {
 
 
     public static void addRooms(Room room) {
+        for(Room r: rooms){
+            if(r.getRoomID().equals(room.getRoomID())){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Số phòng đã tồn tại trong danh sách phòng!");
+                alert.showAndWait();
+                return;
+            }
+        }
         rooms.add(room);
         saveRoomsToFile();
-
+    }
+    public void delateRoom(Room room){
+        rooms.remove(room);
+        saveRoomsToFile();
     }
 
     public static void saveRoomsToFile() {

@@ -1,1 +1,2 @@
-admin=C:\Users\ASUS\Downloads\IMG_20241222_152710.jpg
+admin=D:\JavaCLB\ProHostel\src\main\resources\Image\img_2.png
+mailinh=C:\Users\ASUS\Downloads\DSCF7063.JPG

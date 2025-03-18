@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.prohostel.Model.*;
@@ -34,8 +37,6 @@ public class AdminHome {
     @FXML
     private URL location;
 
-    @FXML
-    private Button addRoom;
 
     @FXML
     private Button back;
@@ -47,64 +48,25 @@ public class AdminHome {
     private AnchorPane contentPane;
 
     @FXML
-    private Button delateRoom;
-
-    @FXML
-    private TableColumn<Room, Double> dongia;
-
-    @FXML
     private Button edit;
 
     @FXML
     private Button guestList;
 
     @FXML
-    private TableColumn<Room, String> hoatdong;
-
-    @FXML
-    private TableColumn<Room, String> loaiphong;
-
-    @FXML
     private Label name;
-
-    @FXML
-    private TextField price;
 
     @FXML
     private Label role;
 
     @FXML
-    private TextField roomID;
-
-    @FXML
     private Button roomList;
-
-    @FXML
-    private TableView<Room> roomTable;
-
-    @FXML
-    private ComboBox<String> roomType;
 
     @FXML
     private Button setAdmin;
 
     @FXML
     private Button showInvoice;
-
-    @FXML
-    private TableColumn<Room, String> sophong;
-
-    @FXML
-    private TableColumn<Room, Integer> stt;
-
-    @FXML
-    private TableColumn<Room, String> trangthai;
-
-    @FXML
-    private Button updateRoom;
-
-    @FXML
-    private AnchorPane roomListPane;
 
     @FXML
     private Button pay;
@@ -136,10 +98,9 @@ public class AdminHome {
     @FXML
     private Button removeAdmin;
 
-
-
     private RoomManager roomManager;
     private ObservableList<Room> listRoom = FXCollections.observableArrayList();
+    private String username;
 
 
     Scene scene;
@@ -150,13 +111,9 @@ public class AdminHome {
     void initialize() {
         roomManager = new RoomManager();
 
-
         contentPane.setVisible(true);
-        roomListPane.setVisible(false);
         acceptAdminPane.setVisible(false);
-        roomType.getItems().addAll("Phòng đơn", "Phòng đôi");
 
-        addRoom.setOnAction(e -> addRoomAction());
         roomList.setOnAction(e -> roomListAction());
         guestList.setOnAction(e -> guestListAction());
         pay.setOnAction(e -> payAction());
@@ -166,12 +123,12 @@ public class AdminHome {
         setAdmin.setOnAction(e -> setAdminAction());
         signout.setOnAction(e -> signoutAction(e));
         edit.setOnAction(e -> editAction(e));
-        loadAvatar(name.getText(), imageView);
+
 
 
     }
     public void bookRoomAction(){
-        roomListPane.setVisible(false);
+
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -183,124 +140,30 @@ public class AdminHome {
         contentPane.getChildren().add(root);
     }
     public void setUserName(String userName){
+        this.username = userName;
         name.setText(userName);
+        loadAvatar(username, imageView);
+
     }
     public void setRole(String Role){
         role.setText(Role);
     }
 
     public void roomListAction(){
-        contentPane.setVisible(false);
+        contentPane.setVisible(true);
         acceptAdminPane.setVisible(false);
-        roomTable.refresh();
-        roomListPane.setVisible(true);
-        listRoom.clear();
-        System.out.println("check load file trong danh sach");
-        roomManager.loadRoomsFromFile();
-        for(Room room: roomManager.getRooms()){
-            //System.out.println("phong " + room.getRoomID() + "co " + room.getBookings().size() + " luot dat phong");
-            listRoom.add(room);
-        }
-        for (Room room : roomManager.getRooms()) {
-            for (Booking booking : room.getBookings()) {
-                System.out.println("Phòng: " + room.getRoomID() +
-                        ", Checkout mới: " + booking.getCheckout());
-            }
-        }
-        trangthai.setCellValueFactory(cellData -> {
-            Room room = cellData.getValue();
-            boolean isOccupied = room.isOccupied();
-            System.out.println("trang thai " + room.isOccupied());
-            return new SimpleStringProperty(isOccupied ? "Đang cho thuê" : "Trống");
-        });
-
-
-        roomTable.setStyle("-fx-alignment: CENTER;");
-        stt.setCellFactory(col -> new TableCell<>(){
-            protected void updateItem(Integer item, boolean empty){
-                super.updateItem(item, empty);
-                if(empty || getTableRow() == null){
-                    setText(null);
-                }else{
-                    setText(String.valueOf(getIndex()+1));
-                    setStyle("-fx-alignment: CENTER;");
-                }
-            }
-        });
-        sophong.setCellValueFactory(new PropertyValueFactory<>("roomID"));
-        sophong.setStyle("-fx-alignment: CENTER;");
-        loaiphong.setCellValueFactory(new PropertyValueFactory<>("roomType"));
-        loaiphong.setStyle("-fx-alignment: CENTER;");
-        dongia.setCellValueFactory(new PropertyValueFactory<>("price"));
-        dongia.setStyle("-fx-alignment: CENTER;");
-
-        hoatdong.setCellFactory(col -> new TableCell<>() {
-            private final ComboBox<String> comboBox = new ComboBox<>();
-
-            {
-                comboBox.getItems().addAll("Chỉnh sửa", "Xóa");
-                comboBox.setOnAction(e -> {
-                    String selectedAction = comboBox.getValue();
-                    int index = getIndex();
-                    Room room = getTableView().getItems().get(index);
-                    if (selectedAction.equals("Chỉnh sửa")) {
-                        System.out.println("chuyen man chinh sua");
-                    } else {
-                        System.out.println("thuc hien xoa phong");
-                    }
-                    comboBox.getSelectionModel().clearSelection();
-                });
-            }
-            protected void updateItem(String item, boolean empty){
-                super.updateItem(item, empty);
-                if(empty){
-                    setGraphic(null);
-                }
-                else{
-                    setGraphic(comboBox);
-                }
-            }
-        });
-
-
-        roomTable.setItems(listRoom);
-    }
-
-    public void addRoomAction(){
-        String ID = roomID.getText();
-        double roomPrice = 0.0;
-
         try {
-            roomPrice = Double.parseDouble(price.getText());
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Giá phòng không hợp lệ!");
-            alert.showAndWait();
+            root = FXMLLoader.load(getClass().getResource("ShowRoomList.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        String type = roomType.getValue();
-        if(sophong == null || roomPrice == 0.0 || type == null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn cần điền đủ thông tin phòng!");
-            alert.showAndWait();
-            return;
-        }
-        Room room = new Room(ID, type, roomPrice);
-        listRoom.add(room);
-        roomManager.addRooms(room);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Thêm phòng thành công");
-        alert.setHeaderText(null);
-        alert.setContentText("Thêm phòng thành công");
-        alert.showAndWait();
-
+        contentPane.getChildren().add(root);
     }
+
+
     public void guestListAction(){
         contentPane.getChildren().clear();
-        roomListPane.setVisible(false);
+
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -312,7 +175,7 @@ public class AdminHome {
     }
     public void payAction(){
         contentPane.getChildren().clear();
-        roomListPane.setVisible(false);
+
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -324,7 +187,7 @@ public class AdminHome {
     }
     public void showInvoiceAction(){
         contentPane.getChildren().clear();
-        roomListPane.setVisible(false);
+
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -436,13 +299,20 @@ public class AdminHome {
     }
 
     public void editAction(ActionEvent event){
-        String currentUserName = name.getText();
+        String currentUserName = username;
+        System.out.println("ten hien tai " + currentUserName);
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Hình ảnh", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(primaryStage);
         if (file != null) {
             String imagePath = file.getAbsolutePath(); // Lấy đường dẫn ảnh
+            Image image = new Image("file:///" + imagePath, false);
+            if (image.isError()) {
+                System.out.println("⚠️ Lỗi khi tải ảnh: " + imagePath);
+            } else {
+                System.out.println("✅ Ảnh đã được tải thành công!");
+            }
             saveAvatarPath(currentUserName, imagePath);
             imageView.setImage(new Image(file.toURI().toString())); // hien thi anh
         }
@@ -450,39 +320,66 @@ public class AdminHome {
 
     public void loadAvatar(String username, ImageView imageView) {
         String avatarPath = getAvatarPath(username);
-        imageView.setImage(new Image(new File(avatarPath).toURI().toString())); // Hiển thị ảnh
+        imageView.setImage(new Image(avatarPath));
+        imageView.setFitWidth(150);       // Khung ImageView cố định chiều rộng
+        imageView.setFitHeight(150);      // Khung ImageView cố định chiều cao
+        imageView.setPreserveRatio(false); // Giữ tỷ lệ của ảnh
+        imageView.setSmooth(true);
+        Circle clip = new Circle(75, 75, 75);
+        imageView.setClip(clip);
+
     }
     private String getAvatarPath(String username) {
         File file = new File("avatar_sources.txt");
-        if (!file.exists()) return "/Image/img_2.png"; // Nếu file chưa có, dùng ảnh mặc định
+        if (!file.exists()) {
+            return getClass().getResource("/Image/img_2.png").toExternalForm();
+        }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("avatar_sources.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
+
                 String[] parts = line.split("=", 2);
-                if (parts.length == 2 && parts[0].equals(username)) {
-                    return parts[1]; // Trả về đường dẫn ảnh của username
+                System.out.println(parts[0].trim().equals(username));
+                if (parts.length == 2 && parts[0].trim().equals(username)) {
+                    String avatarPath = parts[1].replace("\\", "/");
+                    File avatarFile = new File(avatarPath);
+                    if (!avatarFile.exists()) {
+                        System.out.println("⚠️ Ảnh không tồn tại: " + avatarPath);
+                    } else {
+                        System.out.println("✅ Ảnh tồn tại: " + avatarPath);
+                        return avatarFile.toURI().toString();
+                    }
+                }
+                else {
+                    // Debug xem vì sao không khớp
+                    System.out.println("Không match username. parts[0] = '"
+                            + (parts.length > 0 ? parts[0] : "") + "'");
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "/Image/img_2.png" ; // Nếu không tìm thấy username, dùng ảnh mặc định
+        return getClass().getResource("/Image/img_2.png").toExternalForm();
     }
 
 
     // Ghi đường dẫn ảnh vào file TXT
     private void saveAvatarPath(String username, String path) {
+        System.out.println("Da vao luu duong dan anh");
         File file = new File("avatar_sources.txt");
         Map<String, String> avatars = new HashMap<>();
 
         // Đọc file hiện tại
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                System.out.println("da vao doc file hien tai");
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    System.out.println("vao doc tung dong");
                     String[] parts = line.split("=", 2);
                     if (parts.length == 2) {
+                        System.out.println("luu avatar cu");
                         avatars.put(parts[0], parts[1]); // Lưu vào Map
                     }
                 }
@@ -493,11 +390,18 @@ public class AdminHome {
 
         // Cập nhật ảnh cho user
         avatars.put(username, path);
+        System.out.println("check map");
+        for (Map.Entry<String, String> entry : avatars.entrySet()) {
+            System.out.println(entry.getKey() + "=" + entry.getValue() + "\n");
+
+        }
 
         // Ghi lại file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("avatar_sources.txt"))) {
             for (Map.Entry<String, String> entry : avatars.entrySet()) {
+                System.out.println(entry.getKey() + "=" + entry.getValue() + "\n");
                 writer.write(entry.getKey() + "=" + entry.getValue() + "\n");
+                System.out.println("da vao ghi lai file");
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -120,21 +120,6 @@ public class CheckoutPayment {
 
         this.guestManager = new GuestManager();
         this.invoiceManager = new InvoiceManager();
-
-
-        invoicePane.setVisible(false);
-
-        search.setOnAction(e -> searchAction());
-
-        pay.setOnAction(e -> payAction());
-        invoice.setOnAction(e -> invoiceAction());
-
-    }
-
-    public void searchAction() {
-        check = false;
-        searchBookings.clear();
-        String getID = IDcardSearch.getText();
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>() {
             protected void updateItem(Integer item, boolean empty) {
@@ -162,6 +147,31 @@ public class CheckoutPayment {
         // cho phep chinh sua checkbox
         listBooking.setEditable(true);
         payment.setEditable(true);
+        for (User g : guestManager.getListGuests()) {
+            LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+            for (Booking booking : g.getGuestBooking()) {
+                if (booking.getCheckout().isAfter(nowTime)) {
+                    guest = booking.getGuest();
+                        searchBookings.add(booking);
+                    }
+                }
+
+        }
+        listBooking.setItems(searchBookings);
+
+        invoicePane.setVisible(false);
+
+        search.setOnAction(e -> searchAction());
+
+        pay.setOnAction(e -> payAction());
+        invoice.setOnAction(e -> invoiceAction());
+
+    }
+
+    public void searchAction() {
+        check = false;
+        searchBookings.clear();
+        String getID = IDcardSearch.getText();
 
         int ok = 0;
         for (User g : guestManager.getListGuests()) {
