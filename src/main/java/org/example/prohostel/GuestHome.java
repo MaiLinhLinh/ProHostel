@@ -190,6 +190,7 @@ public class GuestHome {
         role.setText(Role);
     }
     public void bookingRoomHistoryAction(){
+        RoomManager.loadRoomsFromFile();
         contentPane.setVisible(false);
         listRoomPane.setVisible(true);
         bookings.clear();

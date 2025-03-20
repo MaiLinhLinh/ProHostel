@@ -57,14 +57,14 @@ public class Booking implements Serializable {
         isPay = pay;
     }
     public double caculatePrice(LocalDateTime now, boolean isPaying){
-        //LocalDateTime effectiveCheckout = this.checkout;
+        LocalDateTime effectiveCheckout = this.checkout;
         if(isPaying && now.isBefore(this.checkout)) {
             System.out.println("Da thay doi thoi gian checkout");
-            this.checkout = now;
-            System.out.println("checkout: " + this.checkout);
+            effectiveCheckout = now;
+            System.out.println("checkout: " + effectiveCheckout);
 
         }
-        long hours = ChronoUnit.HOURS.between(this.checkin, this.checkout);
+        long hours = ChronoUnit.HOURS.between(this.checkin, effectiveCheckout);
         if(hours < 1)
             hours = 1;
         return hours * room.getPrice();
@@ -82,11 +82,11 @@ public class Booking implements Serializable {
         return isSelected;
     }
     public int numberHour(LocalDateTime now, boolean isPaying){
-
+        LocalDateTime currentCheckout = this.checkout;
         if(isPaying && now.isBefore(checkout)) {
-            this.checkout = now;
+            currentCheckout = now;
         }
-        long hours = ChronoUnit.HOURS.between(this.checkin, this.checkout);
+        long hours = ChronoUnit.HOURS.between(this.checkin, currentCheckout);
         if(hours < 1)
             hours = 1;
         return (int)hours;
@@ -98,6 +98,10 @@ public class Booking implements Serializable {
 
     public UserAccount getUserAccount() {
         return userAccount;
+    }
+
+    public void setCheckout(LocalDateTime checkout) {
+        this.checkout = checkout;
     }
 }
 

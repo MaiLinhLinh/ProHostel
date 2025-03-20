@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -98,6 +99,9 @@ public class AdminHome {
     @FXML
     private Button removeAdmin;
 
+    @FXML
+    private Region bookRoomline;
+
     private RoomManager roomManager;
     private ObservableList<Room> listRoom = FXCollections.observableArrayList();
     private String username;
@@ -120,11 +124,27 @@ public class AdminHome {
         showInvoice.setOnAction(e-> showInvoiceAction());
 
         bookRoom.setOnAction(e -> bookRoomAction());
+        bookRoom.setOnMouseEntered(e -> bookRoom.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
+        bookRoom.setOnMouseExited(e -> bookRoom.setStyle("-fx-background-color: White; -fx-background-radius: 20; -fx-text-fill: black;"));
+        bookRoomline.setOpacity(0);
+        bookRoom.setOnMouseEntered(e -> bookRoomline.setOpacity(1));
+        bookRoom.setOnMouseExited(e -> bookRoomline.setOpacity(0));
         setAdmin.setOnAction(e -> setAdminAction());
         signout.setOnAction(e -> signoutAction(e));
+        signout.setOnMouseEntered(e -> signout.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
+        signout.setOnMouseExited(e -> signout.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
         edit.setOnAction(e -> editAction(e));
+        edit.setOnMouseEntered(e -> edit.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
+        edit.setOnMouseExited(e -> edit.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
 
+        // chinh mau
+        exitacceptPane.setOnMouseEntered(e -> exitacceptPane.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+        exitacceptPane.setOnMouseExited(e -> exitacceptPane.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
 
+        accept.setOnMouseEntered(e -> accept.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 20; -fx-text-fill: white;"));
+        accept.setOnMouseExited(e -> accept.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
+       removeAdmin.setOnMouseEntered(e ->removeAdmin.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 20; -fx-text-fill: white;"));
+       removeAdmin.setOnMouseExited(e ->removeAdmin.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
 
     }
     public void bookRoomAction(){
@@ -208,18 +228,19 @@ public class AdminHome {
         });
     }
     public void acceptAdminAction(){
+
         String name = userAccount.getText();
         String pass = passwordAccount.getText();
         UserAccount user = UserAccountManager.loginCheck(name, pass);
-        if(user.getRole().equals("Admin")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thông báo");
-            alert.setHeaderText(null);
-            alert.setContentText("Tài khoản này hiện đang là Admin!");
-            alert.showAndWait();
-            return;
-        }
         if(user != null){
+            if(user.getRole().equals("Admin")){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Tài khoản này hiện đang là Admin!");
+                alert.showAndWait();
+                return;
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
             alert.setHeaderText(null);
@@ -250,15 +271,15 @@ public class AdminHome {
         String name = userAccount.getText();
         String pass = passwordAccount.getText();
         UserAccount user = UserAccountManager.loginCheck(name, pass);
-        if(user.getRole().equals("Guest")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thông báo");
-            alert.setHeaderText(null);
-            alert.setContentText("Tài khoản này hiện không phải là Admin!");
-            alert.showAndWait();
-            return;
-        }
         if(user != null){
+            if(user.getRole().equals("Guest")){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Tài khoản này hiện không phải là Admin!");
+                alert.showAndWait();
+                return;
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
             alert.setHeaderText(null);
@@ -406,6 +427,9 @@ public class AdminHome {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void buttonClickAction(Button button, Region region){
+
     }
 
 

@@ -209,7 +209,7 @@ public class ShowGuestList {
         roomID.setStyle("-fx-alignment: CENTER;");
         roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
         roomType.setStyle("-fx-alignment: CENTER;");
-        price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
+        price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
         price.setStyle("-fx-alignment: CENTER;");
         status.setCellValueFactory(cellData -> {
             Booking booking = cellData.getValue();

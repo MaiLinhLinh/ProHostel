@@ -150,23 +150,23 @@ public class CheckoutPayment {
         listBooking.setEditable(true);
         payment.setEditable(true);
 
-//        if(role.equals("Admin")) {
-//            for (User g : guestManager.getListGuests()) {
-//                LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-//                for (Booking booking : g.getGuestBooking()) {
-//                    if (booking.getCheckout().isAfter(nowTime)) {
-//                        guest = booking.getGuest();
-//                        searchBookings.add(booking);
-//                    }
-//                }
-//
-//            }
-//        }
-//        else{
+        if(role.equals("Admin")) {
             for (User g : guestManager.getListGuests()) {
                 LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
                 for (Booking booking : g.getGuestBooking()) {
-                    if (booking.getCheckout().isAfter(nowTime)) {
+                    if (booking.getIsPay() == false && booking.getCheckout().isAfter(nowTime)) {
+                        guest = booking.getGuest();
+                        searchBookings.add(booking);
+                    }
+                }
+
+            }
+        }
+        else{
+            for (User g : guestManager.getListGuests()) {
+                LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+                for (Booking booking : g.getGuestBooking()) {
+                    if (booking.getIsPay() == false && booking.getUserAccount().getUserName().equals(account.getUserName()) && booking.getUserAccount().getPassword().equals(account.getPassword()) && booking.getCheckout().isAfter(nowTime)) {
                         guest = booking.getGuest();
                         searchBookings.add(booking);
                     }
@@ -174,7 +174,7 @@ public class CheckoutPayment {
 
             }
 
-        //}
+        }
         listBooking.setItems(searchBookings);
 
         invoicePane.setVisible(false);
@@ -192,13 +192,13 @@ public class CheckoutPayment {
         String getID = IDcardSearch.getText();
 
         int ok = 0;
-//        if(role.equals("Admin")) {
+        if(role.equals("Admin")) {
             for (User g : guestManager.getListGuests()) {
                 if (g.getIDCard().equals(getID)) {
                     ok = 1;
                     LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
                     for (Booking booking : g.getGuestBooking()) {
-                        if (booking.getCheckout().isAfter(nowTime)) {
+                        if (booking.getIsPay() == false && booking.getCheckout().isAfter(nowTime)) {
                             guest = booking.getGuest();
                             searchBookings.add(booking);
                         }
@@ -206,20 +206,20 @@ public class CheckoutPayment {
 
                 }
             }
-//        }else{
-//            for (User g : guestManager.getListGuests()) {
-//                if (g.getIDCard().equals(getID)) {
-//                    ok = 1;
-//                    LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-//                    for (Booking booking : g.getGuestBooking()) {
-//                        if (booking.getUserAccount().getUserName().equals(account.getUserName()) && booking.getUserAccount().getPassword().equals(account.getPassword()) && booking.getCheckout().isAfter(nowTime)) {
-//                            guest = booking.getGuest();
-//                            searchBookings.add(booking);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        }else{
+            for (User g : guestManager.getListGuests()) {
+                if (g.getIDCard().equals(getID)) {
+                    LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+                    for (Booking booking : g.getGuestBooking()) {
+                        if (booking.getIsPay() == false && booking.getUserAccount().getUserName().equals(account.getUserName()) && booking.getUserAccount().getPassword().equals(account.getPassword()) && booking.getCheckout().isAfter(nowTime)) {
+                            ok = 2;
+                            guest = booking.getGuest();
+                            searchBookings.add(booking);
+                        }
+                    }
+                }
+            }
+        }
         if (ok == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -228,7 +228,7 @@ public class CheckoutPayment {
             alert.showAndWait();
             return;
         }
-        else if(ok == 1 && searchBookings.size() == 0){
+        if(ok == 1 && searchBookings.size() == 0 && role.equals("Admin")){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -237,6 +237,15 @@ public class CheckoutPayment {
             return;
 
         }
+        if(ok == 2 && searchBookings.size() == 0 && role.equals("Guest")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Khách hàng này đã thanh toán hết phòng!");
+            alert.showAndWait();
+            return;
+        }
+
         listBooking.setItems(searchBookings);
 //        listBooking.refresh();
 
@@ -246,8 +255,14 @@ public class CheckoutPayment {
     public void payAction() {
         selectedBookings.clear();
         LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, true)));
-        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        if(role.equals("Admin")) {
+            roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, true)));
+            numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, true)));
+        }
+        else{
+            roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, false)));
+            numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, false)));
+        }
         initInvoice();
 
         ArrayList<Booking> payedBookings = new ArrayList<Booking>();
@@ -282,27 +297,31 @@ public class CheckoutPayment {
             payInvoice.setOnAction(e -> {
                 newInvoice.setPay(true);
                 check = true;
+                LocalDateTime currentCheckout = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
                 for (Booking booking : payedBookings) {
-
-                    // Cập nhật booking trong danh sách của RoomManager
-                    for (Room r : RoomManager.getRooms()) {
-                        // Tìm room có cùng ID với booking hiện tại
-                        if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
-                            // Duyệt qua danh sách bookings của room đó
-                            for (int i = 0; i < r.getBookings().size(); i++) {
-                                Booking b = r.getBookings().get(i);
-                                // Giả sử checkin là duy nhất cho mỗi booking,
-                                // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
-                                if(b.getCheckin().equals(booking.getCheckin())) {
-                                    r.getBookings().set(i, booking);
-                                    System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
-                                    break;
+                    if(role.equals("Admin")) {
+                        booking.setCheckout(currentCheckout);
+                        // Cập nhật booking trong danh sách của RoomManager
+                        for (Room r : RoomManager.getRooms()) {
+                            // Tìm room có cùng ID với booking hiện tại
+                            if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
+                                // Duyệt qua danh sách bookings của room đó
+                                for (int i = 0; i < r.getBookings().size(); i++) {
+                                    Booking b = r.getBookings().get(i);
+                                    // Giả sử checkin là duy nhất cho mỗi booking,
+                                    // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
+                                    if (b.getCheckin().equals(booking.getCheckin())) {
+                                        r.getBookings().set(i, booking);
+                                        System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
+                                        break;
+                                    }
                                 }
+                                break;
                             }
-                            break;
                         }
                     }
                     booking.setPay(true);
+                    searchBookings.remove(booking);
                     RoomManager.saveRoomsToFile();
                     GuestManager.saveGuestsToFile();
                     System.out.println("checkout: " + booking.getCheckout());
