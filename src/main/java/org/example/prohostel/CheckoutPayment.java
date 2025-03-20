@@ -286,10 +286,14 @@ public class CheckoutPayment {
         payInvoice.setVisible(true);
 
 
-        String currentAdmin = SessionManager.getCurrentAccount().getUserName();
+        UserAccount currentAdmin = SessionManager.getCurrentAccount();
         Invoice newInvoice = new Invoice(guest, currentAdmin, payedBookings, LocalDateTime.now());
         boolean isPay = newInvoice.isPay();
-        double totalAmount = newInvoice.getTotalPay();
+        double totalAmount;
+        if(role.equals("Admin"))
+            totalAmount = newInvoice.getTotalPay(true);
+        else
+            totalAmount = newInvoice.getTotalPay(false);
         totalPrice.setText(String.format("%,.2f VND", totalAmount));
         if (isPay == false) {
             payInvoice.setDisable(false);
@@ -348,8 +352,7 @@ public class CheckoutPayment {
 
 
     public void invoiceAction(){
-        roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
-        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+
         initInvoice();
         if(check == true){
             noti.setText("Đã thanh toán");
@@ -390,8 +393,8 @@ public class CheckoutPayment {
         roomTypeInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
         roomIDInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
         priceInvoice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
-//        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour()));
-        //roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
 
         invoiceTable.setItems(selectedBookings);
 

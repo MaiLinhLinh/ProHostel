@@ -102,9 +102,23 @@ public class AdminHome {
     @FXML
     private Region bookRoomline;
 
+    @FXML
+    private Region invoiceLine;
+    @FXML
+    private Region roomListLine;
+    @FXML
+    private Region guestListLine;
+    @FXML
+    private Region payLine;
+    @FXML
+    private Region fixLine;
+
     private RoomManager roomManager;
     private ObservableList<Room> listRoom = FXCollections.observableArrayList();
     private String username;
+
+    private Button selectedButton = null;
+    private Region selectRegion = null;
 
 
     Scene scene;
@@ -124,11 +138,15 @@ public class AdminHome {
         showInvoice.setOnAction(e-> showInvoiceAction());
 
         bookRoom.setOnAction(e -> bookRoomAction());
-        bookRoom.setOnMouseEntered(e -> bookRoom.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
-        bookRoom.setOnMouseExited(e -> bookRoom.setStyle("-fx-background-color: White; -fx-background-radius: 20; -fx-text-fill: black;"));
-        bookRoomline.setOpacity(0);
-        bookRoom.setOnMouseEntered(e -> bookRoomline.setOpacity(1));
-        bookRoom.setOnMouseExited(e -> bookRoomline.setOpacity(0));
+
+        buttonclickMouseColor(bookRoom);
+        buttonclickMouseColor(showInvoice);
+        buttonclickMouseColor(setAdmin);
+        buttonclickMouseColor(roomList);
+        buttonclickMouseColor(guestList);
+        buttonclickMouseColor(pay);
+
+
         setAdmin.setOnAction(e -> setAdminAction());
         signout.setOnAction(e -> signoutAction(e));
         signout.setOnMouseEntered(e -> signout.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
@@ -148,7 +166,7 @@ public class AdminHome {
 
     }
     public void bookRoomAction(){
-
+        buttonClickAction(bookRoom,bookRoomline);
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -170,6 +188,7 @@ public class AdminHome {
     }
 
     public void roomListAction(){
+        buttonClickAction(roomList, roomListLine);
         contentPane.setVisible(true);
         acceptAdminPane.setVisible(false);
         try {
@@ -182,6 +201,7 @@ public class AdminHome {
 
 
     public void guestListAction(){
+        buttonClickAction(guestList, guestListLine);
         contentPane.getChildren().clear();
 
         acceptAdminPane.setVisible(false);
@@ -194,6 +214,7 @@ public class AdminHome {
         contentPane.getChildren().add(root);
     }
     public void payAction(){
+        buttonClickAction(pay, payLine);
         contentPane.getChildren().clear();
 
         acceptAdminPane.setVisible(false);
@@ -206,6 +227,7 @@ public class AdminHome {
         contentPane.getChildren().add(root);
     }
     public void showInvoiceAction(){
+        buttonClickAction(showInvoice,invoiceLine);
         contentPane.getChildren().clear();
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
@@ -219,6 +241,7 @@ public class AdminHome {
     }
 
     public void setAdminAction(){
+        buttonClickAction(setAdmin, fixLine);
         acceptAdminPane.setVisible(true);
         noti.setVisible(false);
         accept.setOnAction(e -> acceptAdminAction());
@@ -428,7 +451,28 @@ public class AdminHome {
             e.printStackTrace();
         }
     }
+
     private void buttonClickAction(Button button, Region region){
+        if(selectRegion != null){
+            selectRegion.setOpacity(0);
+        }
+        if(selectedButton != null)
+            selectedButton.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 20; -fx-text-fill: black;");
+        selectRegion = region;
+        selectedButton = button;
+        selectedButton.setStyle("-fx-background-color: White; -fx-background-radius: 20; -fx-text-fill: black;");
+        selectRegion.setOpacity(1);
+
+    }
+    private void buttonclickMouseColor(Button button){
+        button.setOnMouseEntered(e -> {
+            if(selectedButton != button)
+                button.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;");
+        });
+        button.setOnMouseExited(e -> {
+            if(selectedButton != button)
+            button.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 20; -fx-text-fill: black;");
+        });
 
     }
 

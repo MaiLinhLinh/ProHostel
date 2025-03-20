@@ -17,10 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import org.example.prohostel.Model.Booking;
-import org.example.prohostel.Model.Invoice;
-import org.example.prohostel.Model.InvoiceManager;
-import org.example.prohostel.Model.User;
+import org.example.prohostel.Model.*;
 
 public class ShowInvoiceList {
 
@@ -98,12 +95,14 @@ public class ShowInvoiceList {
     private InvoiceManager invoiceManager;
     private ObservableList<Invoice> invoices = FXCollections.observableArrayList();
     private ObservableList<Booking> payedBookings = FXCollections.observableArrayList();
-    private boolean isAdmin;
-    private String currentAccount;
+
+
+
 
     @FXML
     void initialize() {
         this.invoiceManager = new InvoiceManager();
+
         invoiceDetailPane.setVisible(false);
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>(){
@@ -197,7 +196,7 @@ public class ShowInvoiceList {
         payedBookings.clear();
         invoiceDetailPane.setVisible(true);
         nameGuest.setText(invoice.getGuest().getName());
-        adminAccount.setText(invoice.getAccount());
+        adminAccount.setText(invoice.getAccount().getUserName());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         String time = invoice.getPaymentTime().format(formatter);
         Date.setText(time);
@@ -218,7 +217,13 @@ public class ShowInvoiceList {
         price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
         totalPrice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
         totalHour.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
-        totalPay.setText(String.valueOf(invoice.getTotalPay()) + " VNĐ");
+        UserAccount currentAccount = invoice.getAccount();
+        String role = currentAccount.getRole();
+        if(role.equals("Admin"))
+            totalPay.setText(String.valueOf(invoice.getTotalPay(true)) + " VNĐ");
+        else
+            totalPay.setText(String.valueOf(invoice.getTotalPay(false)) + " VNĐ");
+
 
         for(Booking booking: invoice.getPayedBookings()){
             payedBookings.add(booking);

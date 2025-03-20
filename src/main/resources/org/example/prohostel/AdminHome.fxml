@@ -35,36 +35,36 @@
          </font></Button>
       <AnchorPane layoutX="189.0" layoutY="14.0" prefHeight="82.0" prefWidth="1162.0" style="-fx-background-color: #FFB3C1; -fx-background-radius: 30;">
          <children>
-            <Button fx:id="showInvoice" layoutX="210.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="Quản Lí Hoá Đơn">
+            <Button fx:id="showInvoice" layoutX="210.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="Quản Lí Hoá Đơn">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Button fx:id="bookRoom" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="Đặt phòng">
+            <Button fx:id="bookRoom" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="Đặt phòng">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Button fx:id="setAdmin" layoutX="969.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="159.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="Chỉnh sửa quyền admin">
+            <Button fx:id="setAdmin" layoutX="969.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="159.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="Chỉnh sửa quyền admin">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Button fx:id="roomList" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="DS phòng">
+            <Button fx:id="roomList" layoutX="590.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="DS phòng">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Button fx:id="guestList" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="DS khách hàng">
+            <Button fx:id="guestList" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="DS khách hàng">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Button fx:id="pay" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #FFFFFF;" text="Thanh Toán">
+            <Button fx:id="pay" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #E0E0E0;" text="Thanh Toán">
                <font>
                   <Font name="Arial" size="13.0" />
                </font></Button>
-            <Region fx:id="bookRoomline" layoutX="24.0" layoutY="72.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
-            <Region layoutX="211.0" layoutY="75.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
-            <Region layoutX="399.0" layoutY="75.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
-            <Region layoutX="590.0" layoutY="75.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
-            <Region layoutX="784.0" layoutY="75.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
-            <Region layoutX="979.0" layoutY="75.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="bookRoomline" layoutX="24.0" layoutY="72.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="invoiceLine" layoutX="211.0" layoutY="75.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="payLine" layoutX="399.0" layoutY="75.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="roomListLine" layoutX="590.0" layoutY="75.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="guestListLine" layoutX="784.0" layoutY="75.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
+            <Region fx:id="fixLine" layoutX="979.0" layoutY="75.0" opacity="0.0" prefHeight="5.0" prefWidth="138.0" style="-fx-background-color: #FAFAD2; -fx-background-radius: 20;" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="contentPane" layoutX="189.0" layoutY="108.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" />
