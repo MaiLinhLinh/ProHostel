@@ -1,2 +1,3 @@
 admin=D:\JavaCLB\ProHostel\src\main\resources\Image\img_2.png
+guest=C:\Users\ASUS\Downloads\Huyhieuclb.png
 mailinh=C:\Users\ASUS\Downloads\DSCF7063.JPG

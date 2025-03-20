@@ -9,11 +9,11 @@ public class UserAccountManager {
         loadAccountsFromFile();
     }
     // Them tai khoan mac dinh
-//    static {
-//        users.add(new UserAccount("guest", "guest", "Guest"));
-//        users.add(new UserAccount("admin", "admin", "Admin"));
-//        saveAccountsToFile();
-//    }
+    static {
+        users.add(new UserAccount("guest", "guest", "Guest"));
+        users.add(new UserAccount("admin", "admin", "Admin"));
+        saveAccountsToFile();
+    }
     // tim tai khoan trong danh sach de dang ki
     private static UserAccount getUser(String userName, String password){
         for(UserAccount user: users){

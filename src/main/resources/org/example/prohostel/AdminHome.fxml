@@ -17,7 +17,7 @@
       <Label layoutX="26.0" layoutY="238.0" text="Vai trò" />
       <Label fx:id="role" layoutX="120.0" layoutY="238.0" text="role" />
       <Button fx:id="edit" layoutX="17.0" layoutY="279.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Thay đổi ảnh đại diện" />
-      <AnchorPane layoutX="203.0" layoutY="9.0" prefHeight="94.0" prefWidth="1154.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;">
+      <AnchorPane layoutX="189.0" layoutY="9.0" prefHeight="94.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;">
          <children>
             <Button fx:id="showInvoice" layoutX="207.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Quản Lí Hoá Đơn" />
             <Button fx:id="bookRoom" layoutX="21.0" layoutY="7.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="139.0" style="-fx-background-radius: 20;" text="Đặt phòng" />

@@ -1,35 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #e3e2da;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.GuestHome">
+<AnchorPane prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #FFC0CB;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.GuestHome">
    <children>
-      <Label layoutX="10.0" layoutY="159.0" text="Tên đăng nhập: " />
-      <Label fx:id="username" layoutX="106.0" layoutY="158.0" text="usernameLabel" wrapText="true" />
-      <Label layoutX="21.0" layoutY="191.0" text="Vai trò:" />
-      <Label fx:id="role" layoutX="104.0" layoutY="191.0" text="roleLabel" />
-      <AnchorPane layoutX="12.0" layoutY="303.0" prefHeight="316.0" prefWidth="131.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20;">
+      <Label layoutX="17.0" layoutY="212.0" text="Tên đăng nhập: " />
+      <Label fx:id="username" layoutX="111.0" layoutY="212.0" text="name" wrapText="true" />
+      <Label layoutX="22.0" layoutY="261.0" text="Vai trò:" />
+      <Label fx:id="role" layoutX="96.0" layoutY="261.0" text="roleLabel" />
+      <StackPane layoutX="11.0" layoutY="23.0" prefHeight="150.0" prefWidth="150.0">
          <children>
-            <Button fx:id="bookingRoom" layoutX="12.0" layoutY="22.0" mnemonicParsing="false" prefHeight="77.0" prefWidth="102.0" text="Đặt phòng" />
-            <Button fx:id="showInvoice" layoutX="17.0" layoutY="119.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="98.0" text="Xuất hoá đơn" />
-            <Button fx:id="bookingRoomHistory" layoutX="18.0" layoutY="223.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="98.0" text="Xem lịch sử đặt phòng" wrapText="true">
+            <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Image/img_2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <Button fx:id="edit" layoutX="21.0" layoutY="312.0" mnemonicParsing="false" text="Thay đổi ảnh đại diện" />
+      <AnchorPane fx:id="contentPane" layoutX="189.0" layoutY="124.0" prefHeight="512.0" prefWidth="1161.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" />
+      <AnchorPane layoutX="187.0" layoutY="14.0" prefHeight="94.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20;">
+         <children>
+            <Button fx:id="bookingRoom" layoutX="74.0" layoutY="8.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="194.0" style="-fx-background-color: #FFFFFF;" text="Đặt phòng">
                <font>
-                  <Font size="14.0" />
-               </font></Button>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="pay" layoutX="469.0" layoutY="8.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="202.0" style="-fx-background-color: #FFFFFF;" text="Thanh toán">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="bookingRoomHistory" layoutX="844.0" layoutY="8.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="202.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Xem lịch sử đặt phòng" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="96.0" fitWidth="98.0" layoutX="50.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Image/img_2.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="back" layoutX="9.0" layoutY="14.0" mnemonicParsing="false" text="&lt;&lt;" />
-      <Button fx:id="edit" layoutX="56.0" layoutY="231.0" mnemonicParsing="false" text="Edit" />
-      <AnchorPane fx:id="contentPane" layoutX="199.0" layoutY="9.0" prefHeight="627.0" prefWidth="1092.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" />
+      <AnchorPane layoutX="1241.0" layoutY="225.0" prefHeight="200.0" prefWidth="124.0" />
+      <Button fx:id="exit" layoutX="51.0" layoutY="355.0" mnemonicParsing="false" text="Đăng xuất" />
+      <AnchorPane fx:id="listRoomPane" layoutX="186.0" layoutY="125.0" prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" visible="false">
+         <children>
+            <Label layoutX="460.0" layoutY="20.0" text="Danh sách phòng đã đặt">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="19.0" layoutY="64.0" prefHeight="423.0" prefWidth="1120.0">
+               <content>
+                  <TableView fx:id="listRoomTable" prefHeight="422.0" prefWidth="1118.0">
+                    <columns>
+                      <TableColumn fx:id="stt" prefWidth="37.60000687837601" text="STT" />
+                      <TableColumn fx:id="tenkhachhang" prefWidth="142.3999900817871" text="Tên khách hàng" />
+                        <TableColumn fx:id="cccd" prefWidth="77.59999084472656" text="CCCD" />
+                        <TableColumn fx:id="sdt" prefWidth="81.60006713867188" text="SĐT" />
+                        <TableColumn fx:id="ngaysinh" prefWidth="75.0" text="Ngày sinh" />
+                        <TableColumn fx:id="gioitinh" prefWidth="75.0" text="Giới tính" />
+                        <TableColumn fx:id="diachi" prefWidth="75.0" text="Địa chỉ" />
+                        <TableColumn fx:id="quoctich" prefWidth="75.0" text="Quốc tịch" />
+                        <TableColumn fx:id="sophong" prefWidth="75.0" text="Số phòng" />
+                        <TableColumn fx:id="loaiphong" prefWidth="75.0" text="Loại phòng" />
+                        <TableColumn fx:id="checkin" prefWidth="75.0" text="Checkin" />
+                        <TableColumn fx:id="checkout" prefWidth="75.0" text="Checkout" />
+                        <TableColumn fx:id="tongtien" prefWidth="75.0" text="Tổng tiền" />
+                        <TableColumn fx:id="trangthai" prefWidth="88.00006103515625" text="Trạng thái" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
+            <ComboBox fx:id="loc" layoutX="842.0" layoutY="20.0" prefHeight="26.0" prefWidth="236.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
