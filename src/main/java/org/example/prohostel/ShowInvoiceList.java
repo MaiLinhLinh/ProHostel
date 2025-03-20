@@ -3,6 +3,7 @@ package org.example.prohostel;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -95,8 +96,10 @@ public class ShowInvoiceList {
     private Button searchInvoiceButton;
 
     private InvoiceManager invoiceManager;
-    ObservableList<Invoice> invoices = FXCollections.observableArrayList();
-    ObservableList<Booking> payedBookings = FXCollections.observableArrayList();
+    private ObservableList<Invoice> invoices = FXCollections.observableArrayList();
+    private ObservableList<Booking> payedBookings = FXCollections.observableArrayList();
+    private boolean isAdmin;
+    private String currentAccount;
 
     @FXML
     void initialize() {
@@ -171,7 +174,6 @@ public class ShowInvoiceList {
         searchInvoiceButton.setOnAction(e -> SearchInvoiceButtonAction());
 
 
-
     }
     public void delateInvoice(Invoice invoice, ObservableList<Invoice> invoices){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -214,15 +216,17 @@ public class ShowInvoiceList {
         roomID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
         roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
         price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
-        totalPrice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice()));
-        totalHour.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour()));
+        totalPrice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        totalHour.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
         totalPay.setText(String.valueOf(invoice.getTotalPay()) + " VNĐ");
+
         for(Booking booking: invoice.getPayedBookings()){
             payedBookings.add(booking);
         }
         invoiceDetailTable.setItems(payedBookings);
 
     }
+
     public void ExitDetailAction(){
         invoiceDetailPane.setVisible(false);
     }

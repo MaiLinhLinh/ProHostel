@@ -8,33 +8,33 @@ import java.util.ArrayList;
 public class GuestManager {
     private static ArrayList<User> guests = new ArrayList<User>();
 
-    private static RoomManager roomManager = new RoomManager();
+
     public GuestManager(){
         loadGuestFromFile();
     }
 
-    static {
-        LocalDateTime checkin1 = LocalDateTime.of(2025, 3, 17, 14, 0);
-        LocalDateTime checkout1 = LocalDateTime.of(2025, 3, 19, 12, 0);
-        User guest = new User("an", "12", "nu", "123", "122", "na", "vn");
-        guests.add(guest);
-        ArrayList<Room> rooms = roomManager.getRooms();
-        Room selectedRoom = null;
-        for (Room room : rooms) {
-            selectedRoom = room;
-            break;
-        }
-        Booking booking = new Booking(guest, selectedRoom, checkin1, checkout1);
-        selectedRoom.setTimeBookings(booking);
-        System.out.println("phong " + selectedRoom.getRoomID() + " co " + selectedRoom.getBookings().size() + " luot dat phong");
-
-        guest.addGuestBooking(booking);
-        saveGuestsToFile();
-//        for(Booking book: guest.getGuestBooking()){
-//            System.out.println(book.getRoom().getRoomID());
+//    static {
+//        LocalDateTime checkin1 = LocalDateTime.of(2025, 3, 17, 14, 0);
+//        LocalDateTime checkout1 = LocalDateTime.of(2025, 3, 19, 12, 0);
+//        User guest = new User("an", "12", "nu", "123", "122", "na", "vn");
+//        guests.add(guest);
+//        ArrayList<Room> rooms = roomManager.getRooms();
+//        Room selectedRoom = null;
+//        for (Room room : rooms) {
+//            selectedRoom = room;
+//            break;
 //        }
-        System.out.println("Da co 1 khach dat phong");
-    }
+//        Booking booking = new Booking(guest, selectedRoom, checkin1, checkout1);
+//        selectedRoom.setTimeBookings(booking);
+//        System.out.println("phong " + selectedRoom.getRoomID() + " co " + selectedRoom.getBookings().size() + " luot dat phong");
+//
+//        guest.addGuestBooking(booking);
+//        saveGuestsToFile();
+////        for(Booking book: guest.getGuestBooking()){
+////            System.out.println(book.getRoom().getRoomID());
+////        }
+//        System.out.println("Da co 1 khach dat phong");
+//    }
 
 
     // tim khach hang theo CCCD
@@ -47,21 +47,21 @@ public class GuestManager {
     }
 
     // them khach hang va dat phong
-    public void addGuest(String name, String birthday, String sex, String numberPhone, String IDCard, String address, String national, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime) {
+    public void addGuest(UserAccount userAccount,String name, String birthday, String sex, String numberPhone, String IDCard, String address, String national, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime) {
         User guest = getGuest(IDCard);
 
         if (room.isBooking(checkinTime, checkoutTime) == false) {
             if (guest == null) {
                 User newGuest = new User(name, birthday, sex, numberPhone, IDCard, address, national);
                 guests.add(newGuest);
-                Booking newBooking = new Booking(newGuest, room, checkinTime, checkoutTime);
+                Booking newBooking = new Booking(userAccount,newGuest, room, checkinTime, checkoutTime);
                 room.setTimeBookings(newBooking);
                 System.out.println("phong " + room.getRoomID() + " co " + room.getBookings().size() + " luot dat phong");
                 newGuest.addGuestBooking(newBooking);
                 saveGuestsToFile();
 
             } else {
-                Booking newBooking = new Booking(guest, room, checkinTime, checkoutTime);
+                Booking newBooking = new Booking(userAccount,guest, room, checkinTime, checkoutTime);
                 room.setTimeBookings(newBooking);
                 System.out.println("phong " + room.getRoomID() + " co " + room.getBookings().size() + " luot dat phong");
                 guest.addGuestBooking(newBooking);
@@ -102,7 +102,7 @@ public class GuestManager {
 
 
     public void loadGuestFromFile() {
-        File file = new File("Rooms.dat");
+        File file = new File("Guests.dat");
         if (!file.exists() || file.length() == 0) {
             return;
         }
@@ -130,4 +130,5 @@ public class GuestManager {
         guests.remove(guest);
         saveGuestsToFile();
     }
+
 }

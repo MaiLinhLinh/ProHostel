@@ -2,6 +2,7 @@ package org.example.prohostel.Model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Invoice implements Serializable {
@@ -23,7 +24,7 @@ public class Invoice implements Serializable {
     public double getTotalPay(){
         totalPay = 0;
         for(Booking booking: payedBookings){
-            totalPay += booking.caculatePrice();
+            totalPay += booking.caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), true);
         }
         return totalPay;
     }

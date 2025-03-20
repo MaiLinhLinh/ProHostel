@@ -176,7 +176,8 @@ public class BookingRoom {
             if(response == ButtonType.OK){
                 for (Room room : availabelRoom) {
                     if (room.isSelected()) {
-                        guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
+                        UserAccount currentAccount = SessionManager.getCurrentAccount();
+                        guestManager.addGuest(currentAccount, name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
                         System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
                     }
                 }

@@ -15,15 +15,15 @@ public class RoomManager {
     public RoomManager(){
         loadRoomsFromFile();
     }
-    static{
-        Room room01 = new Room("101", "Phong don", 1000);
-        Room room03 = new Room("102", "Phong doi", 2000);
-        rooms.add(room01);
-        System.out.println("Da luu 1 phong");
-        rooms.add(room03);
-        System.out.println("Da luu 1 phong");
-        saveRoomsToFile();
-    }
+//    static{
+//        Room room01 = new Room("101", "Phong don", 1000);
+//        Room room03 = new Room("102", "Phong doi", 2000);
+//        rooms.add(room01);
+//        System.out.println("Da luu 1 phong");
+//        rooms.add(room03);
+//        System.out.println("Da luu 1 phong");
+//        saveRoomsToFile();
+//    }
 
     // lay danh sach phong con trong trong khoang thoi gian
     public ArrayList<Room> getRoomAvailable(LocalDateTime checkinTime, LocalDateTime checkoutTime){
@@ -111,6 +111,8 @@ public class RoomManager {
 //        e.printStackTrace();
 //    }
 //}
+
+
 
 
 

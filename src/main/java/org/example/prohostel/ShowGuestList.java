@@ -3,6 +3,7 @@ package org.example.prohostel;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,10 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import org.example.prohostel.Model.Booking;
-import org.example.prohostel.Model.GuestManager;
-import org.example.prohostel.Model.Room;
-import org.example.prohostel.Model.User;
+import org.example.prohostel.Model.*;
 
 
 public class ShowGuestList {
@@ -103,10 +101,14 @@ public class ShowGuestList {
     @FXML
     private Label totalNumber;
 
+    @FXML
+    private TableColumn<Booking, String> status;
+
 
     private ObservableList<User> listGuest = FXCollections.observableArrayList();
     private ObservableList<Booking> listBooking = FXCollections.observableArrayList();
     private GuestManager guestManager;
+
 
     @FXML
     void initialize() {
@@ -146,6 +148,7 @@ public class ShowGuestList {
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         address.setStyle("-fx-alignment: CENTER;");
 
+
         for(User guest: guestManager.getListGuests()){
             listGuest.add(guest);
         }
@@ -174,6 +177,7 @@ public class ShowGuestList {
 
 
     }
+
 
     public void initalizeRoomTable(User guest){
 
@@ -207,11 +211,16 @@ public class ShowGuestList {
         roomType.setStyle("-fx-alignment: CENTER;");
         price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
         price.setStyle("-fx-alignment: CENTER;");
-        LocalDateTime nowTime = LocalDateTime.now();
+        status.setCellValueFactory(cellData -> {
+            Booking booking = cellData.getValue();
+            System.out.println(booking.getIsPay());
+            return new SimpleStringProperty(booking.getIsPay() ? "Đã thanh toán": "Chưa thanh toán");
+        });
+        LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         for(Booking booking: guest.getGuestBooking()){
-            if(booking.getCheckout().isAfter(nowTime)){
+            //if(booking.getCheckout().isAfter(nowTime)){
                 listBooking.add(booking);
-            }
+            //}
         }
         phongthueTable.setStyle("-fx-alignment: CENTER;");
         phongthueTable.setItems(listBooking);

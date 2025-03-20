@@ -187,11 +187,11 @@ public class AdminHome {
     }
     public void showInvoiceAction(){
         contentPane.getChildren().clear();
-
         acceptAdminPane.setVisible(false);
         contentPane.setVisible(true);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowInvoiceList.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("ShowInvoiceList.fxml"));
+            root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

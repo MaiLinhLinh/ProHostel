@@ -20,9 +20,11 @@ public class Booking implements Serializable {
     private LocalDateTime checkout;
     private transient BooleanProperty isSelected = new SimpleBooleanProperty(false);
     private boolean isPay;
+    private UserAccount userAccount;
 
 
-    public Booking(User guest, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime){
+    public Booking(UserAccount userAccount,User guest, Room room, LocalDateTime checkinTime, LocalDateTime checkoutTime){
+        this.userAccount = userAccount;
         this.guest = guest;
         this.room = room;
         this.checkin = checkinTime;
@@ -54,44 +56,17 @@ public class Booking implements Serializable {
     public void setPay(boolean pay) {
         isPay = pay;
     }
-    public double caculatePrice(){
-        LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        if(timeNow.isBefore(checkout)) {
+    public double caculatePrice(LocalDateTime now, boolean isPaying){
+        //LocalDateTime effectiveCheckout = this.checkout;
+        if(isPaying && now.isBefore(this.checkout)) {
             System.out.println("Da thay doi thoi gian checkout");
-            checkout = timeNow;
-            System.out.println("checkout: " + checkout);
+            this.checkout = now;
+            System.out.println("checkout: " + this.checkout);
 
-//            // Cập nhật booking trong danh sách của RoomManager
-//            for (Room r : RoomManager.getRooms()) {
-//                // Tìm room có cùng ID với booking hiện tại
-//                if (r.getRoomID().equals(room.getRoomID())) {
-//                    // Duyệt qua danh sách bookings của room đó
-//                    for (int i = 0; i < r.getBookings().size(); i++) {
-//                        Booking b = r.getBookings().get(i);
-//                        // Giả sử checkin là duy nhất cho mỗi booking,
-//                        // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
-//                        if(b.getCheckin().equals(this.getCheckin())) {
-//                            r.getBookings().set(i, this);
-//                            System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
-//                            break;
-//                        }
-//                    }
-//                    break;
-//                }
-//            }
-
-//            RoomManager.saveRoomsToFile();
-//            GuestManager.saveGuestsToFile();
-//            RoomManager.loadRoomsFromFile();
-//            System.out.println("check danh sach sau khi doi checkout");
-//            for (Room room : RoomManager.getRooms()) {
-//                for (Booking booking : room.getBookings()) {
-//                    System.out.println("Phòng: " + room.getRoomID() +
-//                            ", Checkout mới: " + booking.getCheckout());
-//                }
-//            }
         }
-        long hours = ChronoUnit.HOURS.between(checkin, checkout);
+        long hours = ChronoUnit.HOURS.between(this.checkin, this.checkout);
+        if(hours < 1)
+            hours = 1;
         return hours * room.getPrice();
 
     }
@@ -106,12 +81,14 @@ public class Booking implements Serializable {
     public BooleanProperty isSelectedProperty(){
         return isSelected;
     }
-    public int numberHour(){
-        LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        if(timeNow.isBefore(checkout)) {
-            checkout = timeNow;
+    public int numberHour(LocalDateTime now, boolean isPaying){
+
+        if(isPaying && now.isBefore(checkout)) {
+            this.checkout = now;
         }
-        long hours = ChronoUnit.HOURS.between(checkin, checkout);
+        long hours = ChronoUnit.HOURS.between(this.checkin, this.checkout);
+        if(hours < 1)
+            hours = 1;
         return (int)hours;
     }
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -119,7 +96,8 @@ public class Booking implements Serializable {
         this.isSelected = new SimpleBooleanProperty(false); // Khởi tạo lại biến transient
     }
 
-
-
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
 }
 

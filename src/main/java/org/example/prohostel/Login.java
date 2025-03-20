@@ -86,7 +86,7 @@ public class Login {
                 guestHome.setUserName(userName);
                 guestHome.setRole(userRole);
                 stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-                scene = new Scene(root,1300, 650);
+                scene = new Scene(root,1365, 650);
                 //stage.setScene(scene);
 //                stage.setResizable(false);
 //                stage.setWidth(1300);
