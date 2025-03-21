@@ -84,6 +84,7 @@ public class Booking implements Serializable {
     public int numberHour(LocalDateTime now, boolean isPaying){
         LocalDateTime currentCheckout = this.checkout;
         if(isPaying && now.isBefore(checkout)) {
+            System.out.println("Admin dang thanh toan");
             currentCheckout = now;
         }
         long hours = ChronoUnit.HOURS.between(this.checkin, currentCheckout);

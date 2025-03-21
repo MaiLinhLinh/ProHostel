@@ -216,11 +216,9 @@ public class ShowGuestList {
             System.out.println(booking.getIsPay());
             return new SimpleStringProperty(booking.getIsPay() ? "Đã thanh toán": "Chưa thanh toán");
         });
-        LocalDateTime nowTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
         for(Booking booking: guest.getGuestBooking()){
-            //if(booking.getCheckout().isAfter(nowTime)){
-                listBooking.add(booking);
-            //}
+            listBooking.add(booking);
         }
         phongthueTable.setStyle("-fx-alignment: CENTER;");
         phongthueTable.setItems(listBooking);

@@ -118,9 +118,15 @@ public class ShowInvoiceList {
         });
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         date.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentTime().format(formatter)));
-        account.setCellValueFactory(new PropertyValueFactory<>("account"));
-        totalMoney.setCellValueFactory(new PropertyValueFactory<>("totalPay"));
+        account.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAccount().getUserName()));
+        //totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(true)));
         for(Invoice invoice: invoiceManager.getInvoices()){
+            UserAccount currentAccount = invoice.getAccount();
+            String role = currentAccount.getRole();
+            if(role.equals("Admin"))
+                totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(true)));
+            else
+                totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(false)));
             invoices.add(invoice);
         }
         delate.setCellFactory(col -> new TableCell<>(){

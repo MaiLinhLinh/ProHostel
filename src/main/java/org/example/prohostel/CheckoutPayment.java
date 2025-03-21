@@ -117,10 +117,12 @@ public class CheckoutPayment {
 
 
 
+
     @FXML
     void initialize() {
 
         this.guestManager = new GuestManager();
+
         this.invoiceManager = new InvoiceManager();
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>() {
@@ -247,7 +249,7 @@ public class CheckoutPayment {
         }
 
         listBooking.setItems(searchBookings);
-//        listBooking.refresh();
+
 
     }
 
@@ -305,35 +307,36 @@ public class CheckoutPayment {
                 for (Booking booking : payedBookings) {
                     if(role.equals("Admin")) {
                         booking.setCheckout(currentCheckout);
-                        // Cập nhật booking trong danh sách của RoomManager
-                        for (Room r : RoomManager.getRooms()) {
-                            // Tìm room có cùng ID với booking hiện tại
-                            if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
-                                // Duyệt qua danh sách bookings của room đó
-                                for (int i = 0; i < r.getBookings().size(); i++) {
-                                    Booking b = r.getBookings().get(i);
-                                    // Giả sử checkin là duy nhất cho mỗi booking,
-                                    // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
-                                    if (b.getCheckin().equals(booking.getCheckin())) {
-                                        r.getBookings().set(i, booking);
-                                        System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                        }
+//                        // Cập nhật booking trong danh sách của RoomManager
+//                        for (Room r : RoomManager.getRooms()) {
+//                            // Tìm room có cùng ID với booking hiện tại
+//                            if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
+//                                // Duyệt qua danh sách bookings của room đó
+//                                for (int i = 0; i < r.getBookings().size(); i++) {
+//                                    Booking b = r.getBookings().get(i);
+//                                    // Giả sử checkin là duy nhất cho mỗi booking,
+//                                    // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
+//                                    if (b.getCheckin().equals(booking.getCheckin())) {
+//                                        r.getBookings().set(i, booking);
+//                                        System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
+//                                        break;
+//                                    }
+//                                }
+//                                break;
+//                            }
+//                        }
                     }
                     booking.setPay(true);
-                    searchBookings.remove(booking);
+                    RoomManager.updateRoom(booking.getRoom());
                     RoomManager.saveRoomsToFile();
                     GuestManager.saveGuestsToFile();
+
+                    searchBookings.remove(booking);
                     System.out.println("checkout: " + booking.getCheckout());
                     System.out.println(booking.getIsPay());
                     System.out.println("Da set da thanh toan");
-//                    User guest = booking.getGuest();
-//                    guestManager.delateGuest(guest);
                 }
+
                 invoiceManager.addInvoices(newInvoice);
                 System.out.println("da luu 1 hoa don");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -352,7 +355,9 @@ public class CheckoutPayment {
 
 
     public void invoiceAction(){
-
+        LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, false)));
+        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, false)));
         initInvoice();
         if(check == true){
             noti.setText("Đã thanh toán");
@@ -393,8 +398,7 @@ public class CheckoutPayment {
         roomTypeInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
         roomIDInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
         priceInvoice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
-        numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
-        roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+
 
         invoiceTable.setItems(selectedBookings);
 

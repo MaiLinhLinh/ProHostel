@@ -62,6 +62,15 @@ public class RoomManager {
         saveRoomsToFile();
     }
 
+    public static void updateRoom(Room editRoom){
+        for(int i = 0; i < rooms.size(); i++){
+            if(rooms.get(i).getRoomID().equals(editRoom.getRoomID())){
+                rooms.set(i, editRoom);
+                break;
+            }
+        }
+    }
+
     public static void saveRoomsToFile() {
         try {
             FileOutputStream fileRoom = new FileOutputStream("Rooms.dat");
