@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -116,17 +117,61 @@ public class ShowInvoiceList {
                 }
             }
         });
+        Image image = new Image(getClass().getResourceAsStream("/Image/img_5.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(22);
+        imageView.setFitHeight(22);
+        searchInvoiceButton.setGraphic(imageView);
+        searchInvoiceButton.setOnMouseEntered(e -> searchInvoiceButton.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 30; -fx-text-fill: white;"));
+        searchInvoiceButton.setOnMouseExited(e -> searchInvoiceButton.setStyle("-fx-background-color: transparent; -fx-background-radius: 30; -fx-text-fill: white;"));
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         date.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentTime().format(formatter)));
+        date.setStyle("-fx-alignment: CENTER;");
+        date.setSortable(true); // Cho phép sắp xếp
+        date.setComparator((d1, d2) -> {
+            // Tách chuỗi theo dd/MM/yyyy hh:mm a
+            String[] parts1 = d1.split(" ");
+            String[] parts2 = d2.split(" ");
+
+            if (parts1.length == 3 && parts2.length == 3) {
+                // Tách ngày, tháng, năm
+                String[] dateParts1 = parts1[0].split("/");
+                String[] dateParts2 = parts2[0].split("/");
+
+                // Tách giờ phút
+                String[] timeParts1 = parts1[1].split(":");
+                String[] timeParts2 = parts2[1].split(":");
+
+                // Xử lý AM/PM
+                String amPm1 = parts1[2];
+                String amPm2 = parts2[2];
+
+                if (dateParts1.length == 3 && dateParts2.length == 3
+                        && timeParts1.length == 2 && timeParts2.length == 2) {
+                    int hour1 = Integer.valueOf(timeParts1[0]);
+                    int hour2 = Integer.valueOf(timeParts2[0]);
+                    // yyyyMMddHHmm với xử lý AM/PM
+                    String dateTime1 = dateParts1[2] + dateParts1[1] + dateParts1[0] +
+                            ((amPm1.equals("PM") && hour1 != 12) ? Integer.parseInt(timeParts1[0]) + 12 : timeParts1[0]) +
+                            timeParts1[1];
+
+                    String dateTime2 = dateParts2[2] + dateParts2[1] + dateParts2[0] +
+                            ((amPm2.equals("PM") && hour2 != 12) ? Integer.parseInt(timeParts2[0]) + 12 : timeParts2[0]) +
+                            timeParts2[1];
+
+                    // So sánh chuỗi yyyyMMddHHmm
+                    return dateTime2.compareTo(dateTime1); // Mới nhất trước
+                }
+            }
+            return 0;
+        });
+        invoiceTable.getSortOrder().add(date);
         account.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAccount().getUserName()));
-        //totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(true)));
+        account.setStyle("-fx-alignment: CENTER;");
+        totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(false)));
+        totalMoney.setStyle("-fx-alignment: CENTER;");
         for(Invoice invoice: invoiceManager.getInvoices()){
-            UserAccount currentAccount = invoice.getAccount();
-            String role = currentAccount.getRole();
-            if(role.equals("Admin"))
-                totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(true)));
-            else
-                totalMoney.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalPay(false)));
             invoices.add(invoice);
         }
         delate.setCellFactory(col -> new TableCell<>(){
@@ -150,6 +195,7 @@ public class ShowInvoiceList {
             }
 
         });
+        delate.setStyle("-fx-alignment: CENTER;");
         detail.setCellFactory(col -> new TableCell<>(){
             private final Button editButton = new Button();
             {
@@ -171,11 +217,14 @@ public class ShowInvoiceList {
             }
 
         });
-
-
+        detail.setStyle("-fx-alignment: CENTER;");
 
         invoiceTable.setItems(invoices);
+
+        invoiceTable.getSortOrder().add(date); // Áp dụng sắp xếp
         exitDetail.setOnAction(e -> ExitDetailAction());
+        exitDetail.setOnMouseEntered(e -> exitDetail.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+        exitDetail.setOnMouseExited(e -> exitDetail.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
         searchInvoiceButton.setOnAction(e -> SearchInvoiceButtonAction());
 
 
@@ -219,18 +268,17 @@ public class ShowInvoiceList {
             }
         });
         roomID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
+        roomID.setStyle("-fx-alignment: CENTER;");
         roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
+        roomType.setStyle("-fx-alignment: CENTER;");
         price.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
+        price.setStyle("-fx-alignment: CENTER;");
         totalPrice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        totalPrice.setStyle("-fx-alignment: CENTER;");
         totalHour.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
-        UserAccount currentAccount = invoice.getAccount();
-        String role = currentAccount.getRole();
-        if(role.equals("Admin"))
-            totalPay.setText(String.valueOf(invoice.getTotalPay(true)) + " VNĐ");
-        else
-            totalPay.setText(String.valueOf(invoice.getTotalPay(false)) + " VNĐ");
+        totalHour.setStyle("-fx-alignment: CENTER;");
 
-
+        totalPay.setText(String.valueOf(invoice.getTotalPay(false)) + " VNĐ");
         for(Booking booking: invoice.getPayedBookings()){
             payedBookings.add(booking);
         }
@@ -243,6 +291,10 @@ public class ShowInvoiceList {
     }
     public void SearchInvoiceButtonAction(){
         String account = searchInvoice.getText();
+        if(account.equals("")){
+            SetAlert.setAlert("Vui lòng nhập thông tin để tra cứu!");
+            return;
+        }
         invoices.clear();
         for(Invoice invoice: invoiceManager.getInvoices()){
             if(invoice.getAccount().equals(account)){

@@ -8,11 +8,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="512.0" prefWidth="1162.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.CheckoutPayment">
    <children>
-      <TextField fx:id="IDcardSearch" layoutX="53.0" layoutY="30.0" prefHeight="26.0" prefWidth="212.0" promptText="Tìm kiếm khách hàng theo CCCD" />
-      <ScrollPane layoutX="53.0" layoutY="77.0" prefHeight="342.0" prefWidth="1068.0">
+      <TextField fx:id="IDcardSearch" layoutX="53.0" layoutY="47.0" prefHeight="33.0" prefWidth="262.0" promptText="Tìm kiếm khách hàng theo CCCD" />
+      <ScrollPane layoutX="53.0" layoutY="95.0" prefHeight="342.0" prefWidth="1068.0">
          <content>
             <TableView fx:id="listBooking" prefHeight="341.0" prefWidth="1068.0">
               <columns>
@@ -28,18 +29,42 @@
             </TableView>
          </content>
       </ScrollPane>
-      <Button fx:id="invoice" layoutX="881.0" layoutY="444.0" mnemonicParsing="false" text="Hoá đơn" />
-      <Button fx:id="search" layoutX="277.0" layoutY="31.0" mnemonicParsing="false" text="Tìm kiếm" />
-      <Button fx:id="pay" layoutX="1032.0" layoutY="444.0" mnemonicParsing="false" text="Thanh toán" />
-      <AnchorPane fx:id="invoicePane" layoutX="398.0" layoutY="12.0" prefHeight="485.0" prefWidth="408.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 0;" visible="false">
+      <Button fx:id="invoice" layoutX="885.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="69.0" style="-fx-background-color: #008000; -fx-background-radius: 10;" text="Hoá đơn" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
+      <Button fx:id="search" layoutX="269.0" layoutY="49.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
+      <Button fx:id="pay" layoutX="1001.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: #008000; -fx-background-radius: 10;" text="Thanh toán" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
+      <AnchorPane fx:id="invoicePane" layoutX="384.0" layoutY="12.0" prefHeight="486.0" prefWidth="422.0" style="-fx-background-color: #f5f5f5; -fx-background-radius: 0;">
          <children>
-            <Label layoutX="192.0" layoutY="35.0" text="Hoá đơn" />
-            <Label layoutX="34.0" layoutY="87.0" text="Khách hàng: " />
-            <Label fx:id="name" layoutX="145.0" layoutY="87.0" text="name" />
-            <Label layoutX="18.0" layoutY="116.0" text="Ngày lập hoá đơn: " />
-            <Label fx:id="nowtime" layoutX="151.0" layoutY="116.0" text="datetime" />
-            <Line endX="100.0" layoutX="115.0" layoutY="149.0" startX="-100.0" />
-            <TableView fx:id="invoiceTable" layoutY="183.0" prefHeight="202.0" prefWidth="408.0">
+            <Label layoutX="161.0" layoutY="24.0" text="Hoá đơn">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font></Label>
+            <Label layoutX="18.0" layoutY="87.0" text="Khách hàng: ">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label fx:id="name" layoutX="145.0" layoutY="87.0" text="name">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label layoutX="18.0" layoutY="116.0" text="Ngày lập hoá đơn: ">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label fx:id="nowtime" layoutX="151.0" layoutY="116.0" text="datetime">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Line endX="208.60003662109375" endY="-1.52587890625E-5" layoutX="115.0" layoutY="149.0" startX="-45.0" startY="-1.52587890625E-5" />
+            <TableView fx:id="invoiceTable" layoutX="7.0" layoutY="185.0" prefHeight="202.0" prefWidth="408.0">
               <columns>
                 <TableColumn fx:id="sttinvoice" prefWidth="31.20001220703125" text="STT" />
                 <TableColumn fx:id="roomIDInvoice" prefWidth="64.0" text="Số phòng" />
@@ -49,12 +74,27 @@
                   <TableColumn fx:id="roomTotal" prefWidth="72.79998779296875" text="Thành tiền" />
               </columns>
             </TableView>
-            <Button fx:id="payInvoice" layoutX="316.0" layoutY="440.0" mnemonicParsing="false" text="Thanh toán" />
-            <Label layoutX="33.0" layoutY="444.0" text="Cảm ơn quý khách!" />
-            <Label layoutX="221.0" layoutY="400.0" text="Tổng tiền: " />
-            <Label fx:id="totalPrice" layoutX="316.0" layoutY="400.0" text="total" />
-            <Button fx:id="exitInvoice" layoutX="369.0" layoutY="9.0" mnemonicParsing="false" text="X" />
-            <Label fx:id="noti" layoutX="202.0" layoutY="62.0" text="noti" />
+            <Button fx:id="payInvoice" layoutX="299.0" layoutY="441.0" mnemonicParsing="false" style="-fx-background-color: #008000; -fx-background-radius: 10;" text="Thanh toán" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Button>
+            <Label layoutX="33.0" layoutY="444.0" text="Cảm ơn quý khách!">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label layoutX="204.0" layoutY="401.0" text="Tổng tiền: ">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Label fx:id="totalPrice" layoutX="324.0" layoutY="401.0" text="total">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
+            <Button fx:id="exitInvoice" layoutX="383.0" layoutY="11.0" mnemonicParsing="false" text="X" />
+            <Label fx:id="noti" layoutX="150.0" layoutY="53.0" text="noti">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </children>

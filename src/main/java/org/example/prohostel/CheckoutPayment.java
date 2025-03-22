@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.example.prohostel.Model.*;
 
@@ -124,6 +126,16 @@ public class CheckoutPayment {
         this.guestManager = new GuestManager();
 
         this.invoiceManager = new InvoiceManager();
+
+        Image image = new Image(getClass().getResourceAsStream("/Image/img_5.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(22);
+        imageView.setFitHeight(22);
+        search.setGraphic(imageView);
+        search.setOnMouseEntered(e -> search.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 30; -fx-text-fill: white;"));
+        search.setOnMouseExited(e -> search.setStyle("-fx-background-color: transparent; -fx-background-radius: 30; -fx-text-fill: white;"));
+        exitInvoice.setOnMouseEntered(e -> exitInvoice.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+        exitInvoice.setOnMouseExited(e -> exitInvoice.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>() {
             protected void updateItem(Integer item, boolean empty) {
@@ -139,11 +151,17 @@ public class CheckoutPayment {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         checkin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckin().format(formatter)));
+        checkin.setStyle("-fx-alignment: CENTER;");
         checkout.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckout().format(formatter)));
+        checkout.setStyle("-fx-alignment: CENTER;");
         roomID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
+        roomID.setStyle("-fx-alignment: CENTER;");
         roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
+        roomType.setStyle("-fx-alignment: CENTER;");
         guestIDCard.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getIDCard()));
+        guestIDCard.setStyle("-fx-alignment: CENTER;");
         guestName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getName()));
+        guestName.setStyle("-fx-alignment: CENTER;");
 
         // thiet lap checkbox cho cot chon
         payment.setCellValueFactory(cellData -> cellData.getValue().isSelectedProperty());
@@ -151,6 +169,7 @@ public class CheckoutPayment {
         // cho phep chinh sua checkbox
         listBooking.setEditable(true);
         payment.setEditable(true);
+        payment.setStyle("-fx-alignment: CENTER;");
 
         if(role.equals("Admin")) {
             for (User g : guestManager.getListGuests()) {
@@ -178,6 +197,10 @@ public class CheckoutPayment {
 
         }
         listBooking.setItems(searchBookings);
+        setStyle(pay);
+        setStyle(payInvoice);
+        setStyle(invoice);
+
 
         invoicePane.setVisible(false);
 
@@ -192,7 +215,10 @@ public class CheckoutPayment {
         check = false;
         searchBookings.clear();
         String getID = IDcardSearch.getText();
-
+        if(getID.equals("")){
+            SetAlert.setAlert("Vui lòng nhập CCCD để tra cứu!");
+            return;
+        }
         int ok = 0;
         if(role.equals("Admin")) {
             for (User g : guestManager.getListGuests()) {
@@ -223,28 +249,16 @@ public class CheckoutPayment {
             }
         }
         if (ok == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Không tồn tại khách hàng này!");
-            alert.showAndWait();
+            SetAlert.setAlert("Không tồn tại khách hàng này!");
             return;
         }
         if(ok == 1 && searchBookings.size() == 0 && role.equals("Admin")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Khách hàng này đã thanh toán hết phòng!");
-            alert.showAndWait();
+            SetAlert.setAlert("Khách hàng này đã thanh toán hết phòng!");
             return;
 
         }
         if(ok == 2 && searchBookings.size() == 0 && role.equals("Guest")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Khách hàng này đã thanh toán hết phòng!");
-            alert.showAndWait();
+            SetAlert.setAlert("Khách hàng này đã thanh toán hết phòng!");
             return;
         }
 
@@ -255,15 +269,23 @@ public class CheckoutPayment {
 
 
     public void payAction() {
+        if(searchBookings.size() == 0){
+            SetAlert.setAlert("Không có khách hàng nào chưa thanh toán!");
+            return;
+        }
         selectedBookings.clear();
         LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         if(role.equals("Admin")) {
             roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, true)));
+            roomTotal.setStyle("-fx-alignment: CENTER;");
             numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, true)));
+            numberDay.setStyle("-fx-alignment: CENTER;");
         }
         else{
             roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, false)));
+            roomTotal.setStyle("-fx-alignment: CENTER;");
             numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, false)));
+            numberDay.setStyle("-fx-alignment: CENTER;");
         }
         initInvoice();
 
@@ -276,11 +298,7 @@ public class CheckoutPayment {
         }
 
         if (selectedBookings.size() == 0) {
-            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
-            errorAlert.setTitle("Thông báo");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Vui lòng chọn ít nhất một mục để thanh toán!");
-            errorAlert.showAndWait();
+            SetAlert.setAlert("Vui lòng chọn ít nhất một mục để thanh toán!");
             return;
         }
         invoicePane.setVisible(true);
@@ -307,24 +325,6 @@ public class CheckoutPayment {
                 for (Booking booking : payedBookings) {
                     if(role.equals("Admin")) {
                         booking.setCheckout(currentCheckout);
-//                        // Cập nhật booking trong danh sách của RoomManager
-//                        for (Room r : RoomManager.getRooms()) {
-//                            // Tìm room có cùng ID với booking hiện tại
-//                            if (r.getRoomID().equals(booking.getRoom().getRoomID())) {
-//                                // Duyệt qua danh sách bookings của room đó
-//                                for (int i = 0; i < r.getBookings().size(); i++) {
-//                                    Booking b = r.getBookings().get(i);
-//                                    // Giả sử checkin là duy nhất cho mỗi booking,
-//                                    // nếu tìm thấy booking có checkin trùng với booking hiện tại thì thay thế bằng "this"
-//                                    if (b.getCheckin().equals(booking.getCheckin())) {
-//                                        r.getBookings().set(i, booking);
-//                                        System.out.println("Đã cập nhật booking trong room " + r.getRoomID());
-//                                        break;
-//                                    }
-//                                }
-//                                break;
-//                            }
-//                        }
                     }
                     booking.setPay(true);
                     RoomManager.updateRoom(booking.getRoom());
@@ -339,11 +339,7 @@ public class CheckoutPayment {
 
                 invoiceManager.addInvoices(newInvoice);
                 System.out.println("da luu 1 hoa don");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thanh toán thành công");
-                alert.setHeaderText(null);
-                alert.setContentText("Thanh toán thành công!");
-                alert.showAndWait();
+                SetAlert.setAlert("Thanh toán thành công!");
                 payInvoice.setDisable(true);
 
             });
@@ -355,9 +351,16 @@ public class CheckoutPayment {
 
 
     public void invoiceAction(){
+        if(searchBookings.size() == 0){
+            SetAlert.setAlert("Không có khách hàng nào chưa thanh toán!");
+            return;
+        }
         LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         roomTotal.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(timeNow, false)));
+        roomTotal.setStyle("-fx-alignment: CENTER;");
         numberDay.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().numberHour(timeNow, false)));
+        numberDay.setStyle("-fx-alignment: CENTER;");
+
         initInvoice();
         if(check == true){
             noti.setText("Đã thanh toán");
@@ -366,19 +369,25 @@ public class CheckoutPayment {
             noti.setText("Chưa thanh toán");
 
         selectedBookings.clear();
+        ArrayList<Booking> payedBookings = new ArrayList<Booking>();
         for (Booking booking : searchBookings) {
             if (booking.isSelected()) {
                 selectedBookings.add(booking);
+                payedBookings.add(booking);
             }
         }
         if (selectedBookings.size() == 0) {
-            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
-            errorAlert.setTitle("Thông báo");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Vui lòng chọn ít nhất một mục để xem hoá đơn!");
-            errorAlert.showAndWait();
+            SetAlert.setAlert("Vui lòng chọn ít nhất một mục để xem hoá đơn!");
             return;
         }
+        UserAccount currentAdmin = SessionManager.getCurrentAccount();
+        Invoice newInvoice = new Invoice(guest, currentAdmin, payedBookings, LocalDateTime.now());
+        double totalAmount;
+        if(role.equals("Admin"))
+            totalAmount = newInvoice.getTotalPay(true);
+        else
+            totalAmount = newInvoice.getTotalPay(false);
+        totalPrice.setText(String.format("%,.2f VND", totalAmount));
         invoicePane.setVisible(true);
         noti.setVisible(true);
         payInvoice.setVisible(false);
@@ -396,9 +405,11 @@ public class CheckoutPayment {
             }
         });
         roomTypeInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
+        roomTypeInvoice.setStyle("-fx-alignment: CENTER;");
         roomIDInvoice.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
+        roomIDInvoice.setStyle("-fx-alignment: CENTER;");
         priceInvoice.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRoom().getPrice()));
-
+        priceInvoice.setStyle("-fx-alignment: CENTER;");
 
         invoiceTable.setItems(selectedBookings);
 
@@ -410,6 +421,9 @@ public class CheckoutPayment {
             invoicePane.setVisible(false);
         });
     }
-
+    private void setStyle(Button button){
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
+    }
 
 }

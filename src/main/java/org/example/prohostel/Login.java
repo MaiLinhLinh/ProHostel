@@ -64,6 +64,15 @@ public class Login {
         noti.setTextFill(Color.RED);
         login.setOnAction(e -> loginAction(e));
         signup.setOnMouseClicked(e -> setSignup(e));
+        login.setOnMouseEntered(e -> login.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        login.setOnMouseExited(e -> login.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
+        signup.setOnMouseEntered(event -> {
+            signup.setUnderline(true); // Gạch chân khi di chuột vào
+        });
+
+        signup.setOnMouseExited(event -> {
+            signup.setUnderline(false); // Bỏ gạch chân khi chuột rời đi
+        });
 
     }
 
@@ -89,7 +98,7 @@ public class Login {
                 scene = new Scene(root,1365, 650);
 
                 stage.setScene(scene);
-                stage.sizeToScene();
+                stage.centerOnScreen();
                 stage.show();
             }
             else{
@@ -105,6 +114,7 @@ public class Login {
                 stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene(root, 1365, 650);
                 stage.setScene(scene);
+                stage.centerOnScreen();
                 stage.show();
 
             }
@@ -120,9 +130,10 @@ public class Login {
             throw new RuntimeException(e);
         }
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 
 

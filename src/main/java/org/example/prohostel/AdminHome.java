@@ -146,23 +146,20 @@ public class AdminHome {
         buttonclickMouseColor(guestList);
         buttonclickMouseColor(pay);
 
-
         setAdmin.setOnAction(e -> setAdminAction());
         signout.setOnAction(e -> signoutAction(e));
-        signout.setOnMouseEntered(e -> signout.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
-        signout.setOnMouseExited(e -> signout.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
+
         edit.setOnAction(e -> editAction(e));
-        edit.setOnMouseEntered(e -> edit.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
-        edit.setOnMouseExited(e -> edit.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
+        edit.setOnMouseEntered(e -> edit.setStyle("-fx-background-color: green;  -fx-background-radius: 10; -fx-text-fill: white;"));
+        edit.setOnMouseExited(e -> edit.setStyle("-fx-background-color: #E75480;  -fx-background-radius: 10; -fx-text-fill: white;"));
 
         // chinh mau
         exitacceptPane.setOnMouseEntered(e -> exitacceptPane.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
         exitacceptPane.setOnMouseExited(e -> exitacceptPane.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
+        buttonClickAction(accept);
+        buttonClickAction(removeAdmin);
+        buttonClickAction(signout);
 
-        accept.setOnMouseEntered(e -> accept.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 20; -fx-text-fill: white;"));
-        accept.setOnMouseExited(e -> accept.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
-       removeAdmin.setOnMouseEntered(e ->removeAdmin.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 20; -fx-text-fill: white;"));
-       removeAdmin.setOnMouseExited(e ->removeAdmin.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;"));
 
     }
     public void bookRoomAction(){
@@ -339,6 +336,7 @@ public class AdminHome {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root, 500, 300);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -457,7 +455,7 @@ public class AdminHome {
             selectRegion.setOpacity(0);
         }
         if(selectedButton != null)
-            selectedButton.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 20; -fx-text-fill: black;");
+            selectedButton.setStyle("-fx-background-color:  #E75480; -fx-background-radius: 20; -fx-text-fill: white;");
         selectRegion = region;
         selectedButton = button;
         selectedButton.setStyle("-fx-background-color: White; -fx-background-radius: 20; -fx-text-fill: black;");
@@ -467,12 +465,17 @@ public class AdminHome {
     private void buttonclickMouseColor(Button button){
         button.setOnMouseEntered(e -> {
             if(selectedButton != button)
-                button.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white;");
+                button.setStyle("-fx-background-color:  #EE799F; -fx-background-radius: 20; -fx-text-fill: white;");
         });
         button.setOnMouseExited(e -> {
             if(selectedButton != button)
-            button.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 20; -fx-text-fill: black;");
+            button.setStyle("-fx-background-color: #E75480; -fx-background-radius: 20; -fx-text-fill: white;");
         });
+
+    }
+    private void buttonClickAction(Button button){
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
 
     }
 

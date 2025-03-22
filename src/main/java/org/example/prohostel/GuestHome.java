@@ -5,6 +5,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +25,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.prohostel.Model.*;
@@ -91,8 +95,7 @@ public class GuestHome {
     @FXML
     private TableColumn<Booking, String> tenkhachhang;
 
-    @FXML
-    private ComboBox<String> loc;
+
 
     @FXML
     private TableColumn<Booking, String> ngaysinh;
@@ -122,6 +125,7 @@ public class GuestHome {
     private String userName;
     private ObservableList<Booking> bookings = FXCollections.observableArrayList();
     private RoomManager roomManager;
+    private Button selectedButton = null;
 
 
     @FXML
@@ -131,8 +135,15 @@ public class GuestHome {
         bookingRoom.setOnAction(e -> bookingAction(e));
         bookingRoomHistory.setOnAction(e -> bookingRoomHistoryAction());
         exit.setOnAction(e -> signoutAction(e));
+        buttonAction(exit);
         edit.setOnAction(e -> editAction(e));
+        edit.setOnMouseEntered(e -> edit.setStyle("-fx-background-color: green;  -fx-background-radius: 10; -fx-text-fill: white;"));
+        edit.setOnMouseExited(e -> edit.setStyle("-fx-background-color: #E75480;  -fx-background-radius: 10; -fx-text-fill: white;"));
         pay.setOnAction(e -> payAction());
+
+        buttonclickMouseColor(bookingRoomHistory);
+        buttonclickMouseColor(bookingRoom);
+        buttonclickMouseColor(pay);
 
         // hien thi stt tu dong
         stt.setCellFactory(col -> new TableCell<>() {
@@ -149,26 +160,48 @@ public class GuestHome {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         checkin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckin().format(formatter)));
+        checkin.setStyle("-fx-alignment: CENTER;");
         checkout.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckout().format(formatter)));
+        checkout.setStyle("-fx-alignment: CENTER;");
         sophong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
+        sophong.setStyle("-fx-alignment: CENTER;");
         loaiphong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
+        loaiphong.setStyle("-fx-alignment: CENTER;");
         cccd.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getIDCard()));
+        cccd.setStyle("-fx-alignment: CENTER;");
         tenkhachhang.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getName()));
+        tenkhachhang.setStyle("-fx-alignment: CENTER;");
         sdt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getNumberPhone()));
+        sdt.setStyle("-fx-alignment: CENTER;");
         ngaysinh.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getBirthday()));
+        ngaysinh.setStyle("-fx-alignment: CENTER;");
         gioitinh.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getSex()));
+        gioitinh.setStyle("-fx-alignment: CENTER;");
         diachi.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getAddress()));
+        diachi.setStyle("-fx-alignment: CENTER;");
         quoctich.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGuest().getNational()));
+        quoctich.setStyle("-fx-alignment: CENTER;");
         tongtien.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().caculatePrice(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), false)));
+        tongtien.setStyle("-fx-alignment: CENTER;");
         trangthai.setCellValueFactory(cellData -> {
             Booking booking = cellData.getValue();
             System.out.println(booking.getIsPay());
             return new SimpleStringProperty(booking.getIsPay() ? "Đã thanh toán": "Chưa thanh toán");
         });
+        trangthai.setStyle("-fx-alignment: CENTER;");
+
+       addWrapTextToColumn(tenkhachhang);
+       addWrapTextToColumn(cccd);
+       addWrapTextToColumn(diachi);
+       addWrapTextToColumn(quoctich);
+       addWrapTextToColumn(trangthai);
+        addWrapTextToColumn(checkin);
+        addWrapTextToColumn(checkout);
 
     }
 
     public void bookingAction(ActionEvent actionEvent){
+        buttonClickAction(bookingRoom);
         listRoomPane.setVisible(false);
         contentPane.setVisible(true);
         try {
@@ -190,6 +223,9 @@ public class GuestHome {
         role.setText(Role);
     }
     public void bookingRoomHistoryAction(){
+        sophong.setSortable(true); // Cho phép sắp xếp
+        sophong.setComparator(Comparator.naturalOrder()); // Sắp xếp từ A đến Z
+        buttonClickAction(bookingRoomHistory);
         RoomManager.loadRoomsFromFile();
         contentPane.setVisible(false);
         listRoomPane.setVisible(true);
@@ -210,6 +246,7 @@ public class GuestHome {
 
     }
     public void payAction(){
+        buttonClickAction(pay);
         contentPane.getChildren().clear();
         contentPane.setVisible(true);
         listRoomPane.setVisible(false);
@@ -231,6 +268,7 @@ public class GuestHome {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root, 500, 300);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -343,4 +381,55 @@ public class GuestHome {
             e.printStackTrace();
         }
     }
+    private void buttonClickAction(Button button){
+        if(selectedButton != null)
+            selectedButton.setStyle("-fx-background-color:  #E75480; -fx-background-radius: 5; -fx-text-fill: white;");
+        selectedButton = button;
+        selectedButton.setStyle("-fx-background-color: White; -fx-background-radius: 5; -fx-text-fill: black;");
+
+    }
+    private void buttonclickMouseColor(Button button){
+        button.setOnMouseEntered(e -> {
+            if(selectedButton != button)
+                button.setStyle("-fx-background-color:  #EE799F; -fx-background-radius: 5; -fx-text-fill: white;");
+        });
+        button.setOnMouseExited(e -> {
+            if(selectedButton != button)
+                button.setStyle("-fx-background-color: #E75480; -fx-background-radius: 5; -fx-text-fill: white;");
+        });
+
+    }
+    private void buttonAction(Button button){
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
+
+    }
+    // Hàm tạo wrapText cho nhiều cột
+    private <Booking> void addWrapTextToColumn(TableColumn<Booking, String> column) {
+        column.setCellFactory(tc -> new TableCell<Booking, String>() {
+            private final Text text = new Text();
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    text.setText(item); // Đặt nội dung cho Text
+                    text.setWrappingWidth(getTableColumn().getWidth() - 10); // Tự động xuống dòng
+                    text.setStyle("-fx-text-alignment: center; -fx-font-size: 12px;"); // Tùy chỉnh style
+                    setGraphic(text); // Hiển thị text trong ô
+                }
+            }
+        });
+
+        // Lắng nghe thay đổi kích thước cột
+        column.widthProperty().addListener((obs, oldVal, newVal) -> {
+            for (Booking booking : column.getTableView().getItems()) {
+                column.getTableView().refresh(); // Cập nhật lại khi thay đổi độ rộng
+            }
+        });
+    }
+
 }

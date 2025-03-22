@@ -4,19 +4,26 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.example.prohostel.Model.*;
+import org.example.prohostel.Model.SetAlert;
 
 
 public class ShowGuestList {
@@ -104,6 +111,9 @@ public class ShowGuestList {
     @FXML
     private TableColumn<Booking, String> status;
 
+    @FXML
+    private Button search;
+
 
     private ObservableList<User> listGuest = FXCollections.observableArrayList();
     private ObservableList<Booking> listBooking = FXCollections.observableArrayList();
@@ -147,17 +157,30 @@ public class ShowGuestList {
         numberPhone.setStyle("-fx-alignment: CENTER;");
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         address.setStyle("-fx-alignment: CENTER;");
+        Image image = new Image(getClass().getResourceAsStream("/Image/img_5.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(22);
+        imageView.setFitHeight(22);
+        search.setGraphic(imageView);
+        search.setOnMouseEntered(e -> search.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 30; -fx-text-fill: white;"));
+        search.setOnMouseExited(e -> search.setStyle("-fx-background-color: transparent; -fx-background-radius: 30; -fx-text-fill: white;"));
 
+        exitInfor.setOnMouseEntered(e -> exitInfor.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+        exitInfor.setOnMouseExited(e -> exitInfor.setStyle("-fx-background-color: Gainsboro; -fx-text-fill: black;"));
 
         for(User guest: guestManager.getListGuests()){
             listGuest.add(guest);
         }
 
+
         information.setCellFactory(col -> new TableCell<>(){
             private final Button editButton = new Button();
             {
-                editButton.setText("Xem chi tiết");
-                //editButton.setStyle("-fx-background-color: transparent;");// xoa nen button
+                ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/Image/img_7.png")));
+                imageView.setFitWidth(16); // Đặt kích thước hình ảnh
+                imageView.setFitHeight(16);
+                editButton.setGraphic(imageView);
+                editButton.setStyle("-fx-background-color: transparent;");// xoa nen button
                 editButton.setOnAction(e ->{
                     int index = getIndex();
                     User guest = getTableView().getItems().get(index);
@@ -171,9 +194,14 @@ public class ShowGuestList {
             }
 
         });
+        information.setStyle("-fx-alignment: CENTER;");
 
         guestTable.setStyle("-fx-alignment: CENTER;");
         guestTable.setItems(listGuest);
+        nameGuest.setSortable(true); // Cho phép sắp xếp
+        nameGuest.setComparator(Comparator.naturalOrder()); // Sắp xếp từ A đến Z
+        guestTable.getSortOrder().add(nameGuest); // Áp dụng sắp xếp
+        search.setOnAction(e -> searchAction());
 
 
     }
@@ -204,7 +232,9 @@ public class ShowGuestList {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
         checkin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckin().format(formatter)));
+        checkin.setStyle("-fx-alignment: CENTER;");
         checkout.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckout().format(formatter)));
+        checkout.setStyle("-fx-alignment: CENTER;");
         roomID.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomID()));
         roomID.setStyle("-fx-alignment: CENTER;");
         roomType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoom().getRoomType()));
@@ -216,6 +246,8 @@ public class ShowGuestList {
             System.out.println(booking.getIsPay());
             return new SimpleStringProperty(booking.getIsPay() ? "Đã thanh toán": "Chưa thanh toán");
         });
+        status.setStyle("-fx-alignment: CENTER;");
+
 
         for(Booking booking: guest.getGuestBooking()){
             listBooking.add(booking);
@@ -226,6 +258,21 @@ public class ShowGuestList {
         exitInfor.setOnAction(e -> {
             inforPane.setVisible(false);
         });
+    }
+    public void searchAction(){
+        String getGuestName = findGuest.getText();
+        if(getGuestName.equals("")){
+            SetAlert.setAlert("Vui lòng nhập tên khách hàng để tra cứu!");
+            return;
+        }
+        listGuest.clear();
+        for(User guest: guestManager.getListGuests()){
+            if(guest.getName().equals(getGuestName)){
+                listGuest.add(guest);
+            }
+        }
+        guestTable.setItems(listGuest);
+
     }
 
 

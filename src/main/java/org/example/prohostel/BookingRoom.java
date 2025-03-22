@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,7 +62,7 @@ public class BookingRoom {
     private Button save;
 
     @FXML
-    private TextField sex;
+    private ComboBox<String> sex;
 
     @FXML
     private TableColumn<Room, String> availableRoomID;
@@ -140,34 +141,33 @@ public class BookingRoom {
         checkinTime.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
         checkoutTime.valueProperty().addListener((obs, oldValue, newValue) -> updateAvailableRooms());
 
+        save.setOnMouseEntered(e -> save.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        save.setOnMouseExited(e -> save.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
 
+        sex.getItems().addAll("Nam", "Nữ");
 
         ok.setOnAction(e -> okAction());
+        ok.setOnMouseEntered(e -> ok.setStyle("-fx-background-color: ForestGreen; -fx-text-fill: white;"));
+        ok.setOnMouseExited(e -> ok.setStyle("-fx-background-color: green; -fx-text-fill: white;"));
         save.setOnAction(e -> saveAction());
 
     }
-    public void exitAction(){
-        System.out.println("Quay ve trang chu");
-    }
+
 
     public void saveAction() {
         String name = fullName.getText();
         String phone = phoneNumber.getText();
         LocalDate date = birthday.getValue();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String dateOfBirth = date.format(formatter);
-        String sexx = sex.getText();
+        String sexx = sex.getValue();
         String card = IDCard.getText();
         String national = nation.getText();
         String Address = address.getText();
         if(name == "" || phone == "" || date == null || sexx == "" || card == "" || national == "" || Address == ""){
-            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
-            errorAlert.setTitle("Thông báo");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Vui lòng điền đầy đủ thông tin cá nhân!");
-            errorAlert.showAndWait();
+            SetAlert.setAlert("Vui lòng điền đầy đủ thông tin!");
             return;
         }
+        String dateOfBirth = date.format(formatter);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
@@ -182,27 +182,19 @@ public class BookingRoom {
                     }
                 }
 
-                Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
-                succesAlert.setTitle("Thông báo");
-                succesAlert.setHeaderText(null);
-                succesAlert.setContentText("Đăng kí phòng thành công!");
-                succesAlert.showAndWait();
+                SetAlert.setAlert("Đăng kí phòng thành công!");
             }
         });
 
-//        for (Room room : availabelRoom) {
-//            if (room.isSelected()) {
-//                guestManager.addGuest(name, dateOfBirth, sexx, phone, card, Address, national, room, checkinDateTime, checkoutDateTime);
-//                System.out.println("khach hang " + name + " da thue phong " + room.getRoomID());
-//            }
-//        }
 
     }
     public void updateAvailableRooms(){
         RoomManager.loadRoomsFromFile();
         availabelRoom.clear();
         availableRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        availableRoomID.setStyle("-fx-alignment: CENTER;");
         availableRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        availableRoomType.setStyle("-fx-alignment: CENTER;");
 
         String getCheckinTime = checkinTime.getValue();
         String getCheckoutTime = checkoutTime.getValue();
@@ -210,7 +202,8 @@ public class BookingRoom {
         LocalDate getCheckoutDate = checkoutDate.getValue();
 
         pick.setCellValueFactory(cellData -> cellData.getValue().isSelectedProperty());
-        //pick.setCellFactory(CheckBoxTableCell.forTableColumn(pick));
+        pick.setStyle("-fx-alignment: CENTER;");
+
         pick.setCellFactory(col -> new TableCell<Room, Boolean>() {
             private final CheckBox checkBox = new CheckBox();
 
@@ -268,13 +261,11 @@ public class BookingRoom {
             }
         }
         selectedRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        selectedRoomID.setStyle("-fx-alignment: CENTER;");
         selectedRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        selectedRoomType.setStyle("-fx-alignment: CENTER;");
         if(selectdRoom.size() == 0){
-            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
-            errorAlert.setTitle("Thông báo");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Vui lòng chọn ít nhất một phòng!");
-            errorAlert.showAndWait();
+            SetAlert.setAlert("Vui lòng chọn ít nhất một phòng!");
             return;
         }
         selectedRoomTable.setItems(selectdRoom);

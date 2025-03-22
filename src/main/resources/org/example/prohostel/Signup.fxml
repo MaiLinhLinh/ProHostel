@@ -4,19 +4,55 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.Signup">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.Signup">
    <children>
-      <Label layoutX="179.0" layoutY="56.0" text="Đăng kí" />
-      <Label layoutX="22.0" layoutY="132.0" text="Tên đăng nhập" />
-      <Label layoutX="23.0" layoutY="173.0" text="Mật khẩu" />
-      <Button fx:id="signup" layoutX="170.0" layoutY="312.0" mnemonicParsing="false" text="Đăng kí " />
-      <Label fx:id="noti" layoutX="139.0" layoutY="278.0" text="Tài khoản đã tồn tại" />
-      <TextField fx:id="username" layoutX="134.0" layoutY="128.0" />
-      <TextField fx:id="password" layoutX="134.0" layoutY="169.0" />
-      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="&lt;&lt;" />
-      <Label layoutX="17.0" layoutY="221.0" text="Xác nhận mật khẩu:  " />
-      <TextField fx:id="confirm" layoutX="134.0" layoutY="217.0" />
-      <Label fx:id="noticonfirm" layoutX="118.0" layoutY="260.0" text="Mật khẩu xác nhận chưa chính xác" />
+      <Label layoutX="303.0" layoutY="28.0" text="Đăng kí">
+         <font>
+            <Font name="Arial Bold" size="20.0" />
+         </font></Label>
+      <Label layoutX="215.0" layoutY="78.0" text="Tên đăng nhập: ">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <Label layoutX="215.0" layoutY="121.0" text="Mật khẩu: ">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <Button fx:id="signup" layoutX="302.0" layoutY="246.0" mnemonicParsing="false" style="-fx-background-color: #008000; -fx-background-radius: 10;" text="Đăng kí " textFill="WHITE">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Button>
+      <Label fx:id="noti" layoutX="271.0" layoutY="219.0" text="Tài khoản đã tồn tại">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <TextField fx:id="username" layoutX="338.0" layoutY="73.0" prefHeight="26.0" prefWidth="133.0" />
+      <TextField fx:id="password" layoutX="337.0" layoutY="116.0" prefHeight="26.0" prefWidth="134.0" />
+      <Label layoutX="214.0" layoutY="165.0" text="Xác nhận mật khẩu:  ">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <TextField fx:id="confirm" layoutX="337.0" layoutY="160.0" prefHeight="26.0" prefWidth="134.0" />
+      <Label fx:id="noticonfirm" layoutX="237.0" layoutY="203.0" text="Mật khẩu xác nhận chưa chính xác">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <AnchorPane layoutX="1.0" prefHeight="300.0" prefWidth="202.0" style="-fx-background-color: #FFC0CB;">
+         <children>
+            <Button fx:id="back" mnemonicParsing="false" style="-fx-background-color: transparent;" />
+            <Label layoutX="48.0" layoutY="49.0" text="Xin chào!">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="4.0" layoutY="95.0" prefHeight="110.0" prefWidth="194.0" text="Đăng ký tài khoản để trở thành thành viên của ProHostel - Nơi nghỉ dưỡng thoải mái như ở nhà!" wrapText="true">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

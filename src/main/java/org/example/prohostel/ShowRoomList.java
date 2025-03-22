@@ -14,10 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import org.example.prohostel.Model.Booking;
-import org.example.prohostel.Model.Invoice;
-import org.example.prohostel.Model.Room;
-import org.example.prohostel.Model.RoomManager;
+import org.example.prohostel.Model.*;
 
 public class ShowRoomList {
 
@@ -79,6 +76,7 @@ public class ShowRoomList {
 
     @FXML
     private AnchorPane fixIFPane;
+
 
     private RoomManager roomManager;
     private ObservableList<Room> listRoom = FXCollections.observableArrayList();
@@ -144,9 +142,7 @@ public class ShowRoomList {
         });
         xoa.setStyle("-fx-alignment: CENTER;");
 
-//        cancelnewIF.setOnAction(e -> {
-//            fixIFPane.setVisible(false);
-//        });
+
         sua.setCellFactory(col -> new TableCell<>(){
             private final Button editButton = new Button();
             {
@@ -167,6 +163,7 @@ public class ShowRoomList {
                         return;
                     }
                     fixIFPane.setVisible(true);
+                    IDRoom.setText(room.getRoomID());
                     savenewIF.setOnAction(event -> fixRoomAction(room, getTableView().getItems()));
                     cancelnewIF.setOnAction(event -> {
                         fixIFPane.setVisible(false);
@@ -189,6 +186,11 @@ public class ShowRoomList {
         roomType.getItems().addAll("Phòng đơn", "Phòng đôi");
         roomType.setStyle("-fx-alignment: CENTER;");
         roomTable.setItems(listRoom);
+
+        buttonClickAction(savenewIF);
+        buttonClickAction(cancelnewIF);
+        buttonClickAction(addRoom);
+
         addRoom.setOnAction(e -> addRoomAction());
 
         newRoomType.getItems().addAll("Phòng đơn", "Phòng đôi");
@@ -202,29 +204,17 @@ public class ShowRoomList {
         try {
             roomPrice = Double.parseDouble(price.getText());
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Giá phòng không hợp lệ!");
-            alert.showAndWait();
+            SetAlert.setAlert("Giá phòng không hợp lệ!");
         }
         String type = roomType.getValue();
         if (sophong == null || roomPrice == 0.0 || type == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn cần điền đủ thông tin phòng!");
-            alert.showAndWait();
+            SetAlert.setAlert("Bạn cần điền đủ thông tin phòng!");
             return;
         }
         Room room = new Room(ID, type, roomPrice);
         listRoom.add(room);
         roomManager.addRooms(room);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Thêm phòng thành công");
-        alert.setHeaderText(null);
-        alert.setContentText("Thêm phòng thành công");
-        alert.showAndWait();
+        SetAlert.setAlert("Thêm phòng thành công");
     }
     public void delateRoom(Room room, ObservableList<Room> listRoom){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -235,11 +225,7 @@ public class ShowRoomList {
             if(response == ButtonType.OK){
                 listRoom.remove(room);
                 roomManager.delateRoom(room);
-                Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
-                succesAlert.setTitle("Thông báo");
-                succesAlert.setHeaderText(null);
-                succesAlert.setContentText("Đã xoá phòng thành công!");
-                succesAlert.showAndWait();
+                SetAlert.setAlert("Đã xoá phòng thành công!");
             }
         });
     }
@@ -251,6 +237,10 @@ public class ShowRoomList {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK) {
                 String newType = newRoomType.getValue();
+                if(newType == null || newRoomPrice.getText().isEmpty()){
+                    SetAlert.setAlert("Bạn cần điền đủ thông tin phòng!");
+                    return;
+                }
                 Double newPrice = Double.valueOf(newRoomPrice.getText());
                 room.setRoomType(newType);
                 room.setPrice(newPrice);
@@ -260,21 +250,17 @@ public class ShowRoomList {
                         break;
                     }
                 }
-                for (int i = 0; i < RoomManager.getRooms().size(); i++) {
-                    if (room.getRoomID().equals(RoomManager.getRooms().get(i).getRoomID())) {
-                        RoomManager.getRooms().set(i, room);
-                        break;
-                    }
-                    RoomManager.saveRoomsToFile();
-                }
+                RoomManager.updateRoom(room);
+                RoomManager.saveRoomsToFile();
                 fixIFPane.setVisible(false);
-                Alert succesAlert = new Alert(Alert.AlertType.INFORMATION);
-                succesAlert.setTitle("Thông báo");
-                succesAlert.setHeaderText(null);
-                succesAlert.setContentText("Chỉnh sửa thông tin thành công!");
-                succesAlert.showAndWait();
+                SetAlert.setAlert("Chỉnh sửa thông tin thành công!");
             }
         });
+    }
+    private void buttonClickAction(Button button){
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
+
     }
 
 

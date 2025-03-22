@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.Login">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prohostel.Login">
    <children>
-      <ImageView fitHeight="181.0" fitWidth="197.0" layoutX="14.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="181.0" fitWidth="197.0" layoutX="15.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Image/img.png" />
          </image>
@@ -20,16 +20,18 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="noti" layoutX="254.0" layoutY="192.0" text="Tên đăng nhập hoặc mật khẩu sai">
+      <Label fx:id="noti" layoutX="254.0" layoutY="166.0" text="Tên đăng nhập hoặc mật khẩu sai">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
       </Label>
-      <Label fx:id="fogotnoti" layoutX="242.0" layoutY="273.0" text="Quên mật khẩu?" />
-      <Label fx:id="signup" layoutX="430.0" layoutY="273.0" text="Đăng kí" />
+      <Label fx:id="signup" layoutX="230.0" layoutY="268.0" text="Đăng kí">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Label>
       <TextField fx:id="username" layoutX="329.0" layoutY="83.0" prefHeight="26.0" prefWidth="158.0" promptText="username" />
       <TextField fx:id="password" layoutX="328.0" layoutY="126.0" prefHeight="26.0" prefWidth="158.0" promptText="password" />
-      <Button fx:id="login" layoutX="297.0" layoutY="229.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Đăng nhập" textFill="#f7f1f1">
+      <Button fx:id="login" layoutX="297.0" layoutY="229.0" mnemonicParsing="false" style="-fx-background-color: #008000; -fx-background-radius: 10;" text="Đăng nhập" textFill="#f7f1f1">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -42,6 +44,11 @@
       <Label layoutX="224.0" layoutY="131.0" text="Mật khẩu: ">
          <font>
             <Font name="Arial" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="113.0" layoutY="268.0" text="Chưa có tài khoản? ">
+         <font>
+            <Font name="Arial" size="12.0" />
          </font>
       </Label>
    </children>

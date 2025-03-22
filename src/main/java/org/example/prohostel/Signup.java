@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
@@ -62,7 +64,16 @@ public class Signup {
         noticonfirm.setVisible(false);
         noticonfirm.setTextFill(Color.RED);
         signup.setOnAction(e -> signupAction());
+        signup.setOnMouseEntered(e -> signup.setStyle("-fx-background-color: ForestGreen; -fx-background-radius: 10; -fx-text-fill: white;"));
+        signup.setOnMouseExited(e -> signup.setStyle("-fx-background-color: green; -fx-background-radius: 10; -fx-text-fill: white;"));
         back.setOnAction(e->backAction(e));
+        Image image = new Image(getClass().getResourceAsStream("/Image/img_1.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        back.setGraphic(imageView);
+        back.setOnMouseEntered(e -> back.setStyle("-fx-background-color: Gainsboro; -fx-background-radius: 30; -fx-text-fill: white;"));
+        back.setOnMouseExited(e -> back.setStyle("-fx-background-color: transparent; -fx-background-radius: 30; -fx-text-fill: white;"));
 
 
     }
