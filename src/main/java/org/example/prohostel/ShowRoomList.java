@@ -130,6 +130,10 @@ public class ShowRoomList {
                 editButton.setOnAction(e ->{
                     int index = getIndex();
                     Room room = getTableView().getItems().get(index);
+                    if(room.isOccupied()== true){
+                        SetAlert.setAlert("Không thể xoá phòng đang cho thuê!");
+                        return;
+                    }
                     delateRoom(room, getTableView().getItems());
                 });
 
@@ -155,11 +159,7 @@ public class ShowRoomList {
                     int index = getIndex();
                     Room room = getTableView().getItems().get(index);
                     if(room.isOccupied()== true){
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Không thể thay đổi thông tin phòng đang cho thuê!");
-                        alert.showAndWait();
+                        SetAlert.setAlert("Không thể thay đổi thông tin phòng đang cho thuê!");
                         return;
                     }
                     fixIFPane.setVisible(true);

@@ -43,11 +43,12 @@
             <DatePicker fx:id="checkoutDate" layoutX="577.0" layoutY="123.0" prefHeight="30.0" prefWidth="175.0" promptText="Ngày kết thúc" />
             <ComboBox fx:id="checkinTime" layoutX="858.0" layoutY="80.0" prefHeight="28.0" prefWidth="150.0" promptText="Giờ bắt đầu" />
             <ComboBox fx:id="checkoutTime" layoutX="858.0" layoutY="123.0" prefHeight="30.0" prefWidth="150.0" promptText="Giờ kết thúc" />
-            <TableView fx:id="availableRoomTable" layoutX="489.0" layoutY="209.0" prefHeight="182.0" prefWidth="246.0">
+            <TableView fx:id="availableRoomTable" layoutX="489.0" layoutY="209.0" prefHeight="182.0" prefWidth="303.0">
               <columns>
                 <TableColumn fx:id="availableRoomID" prefWidth="77.60003662109375" text="Số Phòng" />
                 <TableColumn fx:id="availableRoomType" prefWidth="95.20001220703125" text="Loại Phòng" />
-                  <TableColumn fx:id="pick" prefWidth="76.79998779296875" text="Chọn" />
+                  <TableColumn fx:id="price" prefWidth="78.4000244140625" text="Giá tiền (1h)" />
+                  <TableColumn fx:id="pick" prefWidth="47.20001220703125" text="Chọn" />
               </columns>
             </TableView>
             <TableView fx:id="selectedRoomTable" layoutX="904.0" layoutY="209.0" prefHeight="182.0" prefWidth="210.0">

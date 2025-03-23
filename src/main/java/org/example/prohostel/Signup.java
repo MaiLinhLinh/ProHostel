@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
+import org.example.prohostel.Model.SetAlert;
 import org.example.prohostel.Model.UserAccountManager;
 
 public class Signup {
@@ -81,19 +82,20 @@ public class Signup {
         String userName = username.getText();
         String pass = password.getText();
         String confirmPass = confirm.getText();
+        if(userName.equals("") || pass.equals("")){
+            SetAlert.setAlert("Bạn cần điền đầy đủ thông tin!");
+            return;
+        }
         if(!pass.equals(confirmPass)){
             noticonfirm.setVisible(true);
             return;
         }
         if (UserAccountManager.register(userName, pass)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Đăng kí thành công");
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn đã đăng ký thành công!");
-            alert.showAndWait();
+            SetAlert.setAlert("Bạn đã đăng ký thành công!");
             return;
         }
         noti.setVisible(true);
+        noticonfirm.setVisible(false);
     }
     public void backAction(ActionEvent actionEvent){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -105,6 +107,7 @@ public class Signup {
         stage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 

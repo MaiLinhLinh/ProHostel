@@ -88,6 +88,9 @@ public class BookingRoom {
     @FXML
     private TableColumn<Room, String> selectedRoomType;
 
+    @FXML
+    private TableColumn<Room, Double> price;
+
     private GuestManager guestManager;
     private RoomManager roomManager;
     private ArrayList<Booking> bookings = new ArrayList<>();
@@ -195,6 +198,8 @@ public class BookingRoom {
         availableRoomID.setStyle("-fx-alignment: CENTER;");
         availableRoomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
         availableRoomType.setStyle("-fx-alignment: CENTER;");
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        price.setStyle("-fx-alignment: CENTER;");
 
         String getCheckinTime = checkinTime.getValue();
         String getCheckoutTime = checkoutTime.getValue();
