@@ -1,9 +1,11 @@
 ### QUẢN LÍ KHÁCH SẠN - PROHOSTEL
 ---
 
-### 📚 Nội dung
+
+#### 📚 Nội dung
+
 - [QUẢN LÍ KHÁCH SẠN - PROHOSTEL](#quản-lí-khách-sạn---prohostel)
-- [📚 Nội dung](#-nội-dung)
+  - [📚 Nội dung](#-nội-dung)
   - [1. Cấu trúc thư mục](#1-cấu-trúc-thư-mục)
   - [2. Tính năng](#2-tính-năng)
   - [3. Ảnh chụp màn hình](#3-ảnh-chụp-màn-hình)
