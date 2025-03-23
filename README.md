@@ -3,7 +3,6 @@
 
 
 #### 📚 Nội dung
-
 - [QUẢN LÍ KHÁCH SẠN - PROHOSTEL](#quản-lí-khách-sạn---prohostel)
   - [📚 Nội dung](#-nội-dung)
   - [1. Cấu trúc thư mục](#1-cấu-trúc-thư-mục)
