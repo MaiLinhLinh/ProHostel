@@ -69,7 +69,7 @@ d) Mà hình tài khoản khách hàng
 ![alt text](image-3.png)
 
 #### 4. Video demo sản phẩm
-
+https://youtu.be/M0plYF6yOdg
 
 #### 5. Tác giả
 - Văn Thị Mai Linh 
