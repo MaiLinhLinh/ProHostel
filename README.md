@@ -1,15 +1,24 @@
 ### QUẢN LÍ KHÁCH SẠN - PROHOSTEL
 ---
+#### Mô tả
 
+ProHostel là ứng dụng quản lý khách sạn giúp tối ưu hóa việc đặt phòng, thanh toán và quản lý thông tin khách hàng. Với giao diện thân thiện và tính năng linh hoạt, ProHostel hỗ trợ vận hành hiệu quả và nâng cao trải nghiệm cho cả người quản lý và khách hàng.
 
+#### Tác giả
+- Văn Thị Mai Linh
+
+---
 #### 📚 Nội dung
 - [QUẢN LÍ KHÁCH SẠN - PROHOSTEL](#quản-lí-khách-sạn---prohostel)
+  - [Mô tả](#mô-tả)
+  - [Tác giả](#tác-giả)
   - [📚 Nội dung](#-nội-dung)
   - [1. Cấu trúc thư mục](#1-cấu-trúc-thư-mục)
   - [2. Tính năng](#2-tính-năng)
   - [3. Ảnh chụp màn hình](#3-ảnh-chụp-màn-hình)
   - [4. Video demo sản phẩm](#4-video-demo-sản-phẩm)
-  - [5. Tác giả](#5-tác-giả)
+  - [5. Môi trường](#5-môi-trường)
+  - [6. Cài đặt dự án](#6-cài-đặt-dự-án)
 ---
 #### 1. Cấu trúc thư mục
     ProHostel/
@@ -72,5 +81,13 @@ d) Mà hình tài khoản khách hàng
 #### 4. Video demo sản phẩm
 https://youtu.be/M0plYF6yOdg
 
-#### 5. Tác giả
-- Văn Thị Mai Linh 
+#### 5. Môi trường
+- Inteliji
+- Ngôn ngữ: JavaFX
+- Công cụ hỗ trợ: Scene Builder
+#### 6. Cài đặt dự án
+- Clone dự án
+- Mở terminal và chạy lệnh: mvn clean install
+- Hoặc sử dụng inteliji
+- Chạy ứng dụng
+
