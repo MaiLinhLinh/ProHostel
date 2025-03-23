@@ -76,25 +76,25 @@ public class Room implements Serializable{
 //        }
 //        return false;
 //    }
-public boolean isOccupied() {
-    LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-    System.out.println("🔍 Kiểm tra trạng thái phòng " + roomID + " tại " + timeNow);
+    public boolean isOccupied() {
+        LocalDateTime timeNow = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        System.out.println("🔍 Kiểm tra trạng thái phòng " + roomID + " tại " + timeNow);
 
-    for (Booking booking : timeBookings) {
-        LocalDateTime checkin = booking.getCheckin();
-        LocalDateTime checkout = booking.getCheckout();
-        System.out.println("  - Đặt phòng từ " + checkin + " đến " + checkout);
+        for (Booking booking : timeBookings) {
+            LocalDateTime checkin = booking.getCheckin();
+            LocalDateTime checkout = booking.getCheckout();
+            System.out.println("  - Đặt phòng từ " + checkin + " đến " + checkout);
 
-        System.out.println("timenow " + timeNow);
-        System.out.println(timeNow.isBefore(checkout));
-        if (timeNow.isBefore(checkout)) {
-            System.out.println("✅ Phòng này đang được thuê.");
-            return true;
+            System.out.println("timenow " + timeNow);
+            System.out.println(timeNow.isBefore(checkout));
+            if (timeNow.isBefore(checkout)) {
+                System.out.println("✅ Phòng này đang được thuê.");
+                return true;
+            }
         }
+        System.out.println("❌ Phòng này đang trống.");
+        return false;
     }
-    System.out.println("❌ Phòng này đang trống.");
-    return false;
-}
 
     public boolean isSelected() {
         return isSelected.get();

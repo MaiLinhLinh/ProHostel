@@ -29,19 +29,6 @@ public class InvoiceManager {
         }
         return listInvoices;
     }
-    // lay hoa don khach hang theo ten , thoi gian booking...
-    public boolean guestInvoice(Invoice invoice){
-        ArrayList<Booking>payedBooking1 = invoice.getPayedBookings();
-        for(Invoice invc: invoices){
-            if(invoice.getGuest().getIDCard().equals(invc.getGuest().getIDCard())){
-                ArrayList<Booking> payedBoking2 = invc.getPayedBookings();
-                if(payedBooking1.size() == payedBoking2.size() && payedBooking1.containsAll(payedBoking2)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
 
     private void loadInvoicesFromFile(){
